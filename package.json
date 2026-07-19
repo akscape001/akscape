@@ -1,0 +1,12 @@
+{
+  "name": "akscape",
+  "private": true,
+  "scripts": {
+    "pagefind": "pagefind --site public",
+    "dev": "hugo server -D",
+    "build": "hugo --minify --gc --baseURL \"https://akscape.com/\""
+  },
+  "devDependencies": {
+    "pagefind": "^1.1.0"
+  }
+}

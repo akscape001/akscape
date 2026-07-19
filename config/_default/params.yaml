@@ -1,0 +1,66 @@
+params:
+  description: 'A calm digital library by Arun Kumar Venkitaraman'
+  author: 'Arun Kumar Venkitaraman'
+  copyright: '© 2024 Arun Kumar Venkitaraman. All rights reserved.'
+  keywords: ['cs', 'ai', 'maths', 'physics', 'spirituality', 'reviews', 'sports', 'writing']
+
+  # Homepage
+  homepage:
+    intro: 'A calm digital library'
+    featured_limit: 1
+    latest_limit: 10
+
+  # Reading time
+  readingTime:
+    enable: true
+    wordsPerMinute: 200
+
+  # Table of contents
+  toc:
+    enable: true
+    auto: true
+    startLevel: 2
+    endLevel: 3
+
+  # Previous/Next article
+  prevNext:
+    enable: true
+
+  # Related articles
+  related:
+    enable: true
+    limit: 3
+    threshold: 80
+
+  # Syntax highlighting
+  syntax:
+    enable: true
+    style: 'github-dark'
+
+  # KaTeX
+  katex:
+    enable: false
+    autoRender: true
+
+  # Mermaid
+  mermaid:
+    enable: false
+
+  # Search
+  search:
+    enable: true
+
+  # Dark mode
+  darkMode:
+    enable: true
+    default: 'system'
+
+  # Social
+  social:
+    github: 'https://github.com/arunkumarvenkitaraman'
+    linkedin: 'https://linkedin.com/in/arunkumarvenkitaraman'
+    email: 'mailto:arun@akscape.com'
+
+  # Footer
+  footer:
+    copyright: '© 2024 Arun Kumar Venkitaraman. All rights reserved.'

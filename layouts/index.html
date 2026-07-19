@@ -1,0 +1,113 @@
+{{ define "main" }}
+<div class="home">
+  {{- /* Hero / Intro */ -}}
+  <header class="home-header">
+    <h1 class="home-title">{{ .Site.Title }}</h1>
+    {{- with .Site.Params.homepage.intro }}
+    <p class="home-subtitle">{{ . }}</p>
+    {{- end }}
+  </header>
+
+  {{- /* Search */ -}}
+  {{- if .Site.Params.search.enable }}
+  <div class="home-search">
+    <div class="search-input-wrapper">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input type="search" class="search-input" placeholder="Search articles..." aria-label="Search articles" autocomplete="off">
+    </div>
+  </div>
+  {{- end }}
+
+  {{- /* Featured Article */ -}}
+  {{- $featured := where .Site.RegularPages "Section" "articles" | where .Params "featured" true | first 1 -}}
+  {{- if $featured -}}
+  <section class="home-featured" aria-labelledby="featured-heading">
+    <div class="home-featured-article">
+      <div class="home-featured-content">
+        {{- $article := index $featured 0 -}}
+        {{- with $article.Params.category -}}
+        <span class="home-featured-category">{{ . }}</span>
+        {{- else -}}
+        {{- with $article.Section -}}
+        <span class="home-featured-category">{{ . | title }}</span>
+        {{- end -}}
+        {{- end -}}
+        <h2 class="home-featured-title">
+          <a href="{{ $article.RelPermalink }}">{{ $article.Title }}</a>
+        </h2>
+        {{- with $article.Description -}}
+        <p class="home-featured-excerpt">{{ . }}</p>
+        {{- end -}}
+        <div class="home-featured-meta">
+          {{- $readingTime := $article.ReadingTime -}}
+          {{- if gt $readingTime 0 -}}
+          <span class="home-featured-reading-time">{{ $readingTime }} min read</span>
+          {{- end -}}
+          <time class="home-featured-date" datetime="{{ $article.Date.Format "2006-01-02" }}">{{ $article.Date.Format "January 2, 2006" }}</time>
+        </div>
+      </div>
+    </div>
+  </section>
+  {{- end -}}
+
+  {{- /* Latest Articles */ -}}
+  {{- $latestLimit := .Site.Params.homepage.latest_limit | default 10 -}}
+  {{- $latest := where .Site.RegularPages "Section" "articles" | where .Params "featured" "!=" true | first $latestLimit -}}
+  {{- if $latest -}}
+  <section class="home-latest" aria-labelledby="latest-heading">
+    <header class="home-latest-header">
+      <h2 class="home-latest-title" id="latest-heading">Latest Articles</h2>
+      <a href="/articles/" class="home-latest-link">View all →</a>
+    </header>
+    <ul class="home-latest-list">
+      {{- range $latest -}}
+      <li>
+        <article class="home-latest-item">
+          <a href="{{ .RelPermalink }}" class="home-latest-item-link" aria-label="Read {{ .Title }}">
+            <div class="home-latest-item-content">
+              <h3 class="home-latest-item-title">{{ .Title }}</h3>
+              <div class="home-latest-item-meta">
+                {{- with .Params.category -}}
+                <span class="home-latest-item-category">{{ . }}</span>
+                {{- else -}}
+                {{- with .Section -}}
+                <span class="home-latest-item-category">{{ . | title }}</span>
+                {{- end -}}
+                {{- end -}}
+                {{- $rt := .ReadingTime -}}
+                {{- if gt $rt 0 -}}
+                <span class="home-latest-item-reading-time">{{ $rt }} min</span>
+                {{- end -}}
+                <time class="home-latest-item-date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
+              </div>
+            </div>
+          </a>
+        </article>
+      </li>
+      {{- end -}}
+    </ul>
+  </section>
+  {{- end -}}
+
+  {{- /* Navigation Sections */ -}}
+  <nav class="home-nav" aria-label="Browse by section">
+    <div class="home-nav-grid">
+      {{- range .Site.Menus.main -}}
+      {{- if .Children -}}
+      <section class="home-nav-section">
+        <h3 class="home-nav-section-title">{{ .Name }}</h3>
+        <ul class="home-nav-section-links">
+          {{- range .Children -}}
+          <li><a href="{{ .URL | relLangURL }}" class="home-nav-section-link">{{ .Name }}</a></li>
+          {{- end -}}
+        </ul>
+      </section>
+      {{- end -}}
+      {{- end -}}
+    </div>
+  </nav>
+</div>
+{{ end }}

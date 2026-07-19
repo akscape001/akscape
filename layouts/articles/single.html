@@ -1,0 +1,116 @@
+{{ define "main" }}
+<article class="article">
+  <header class="article-header">
+    {{- with .Params.category -}}
+    <span class="article-category">{{ . }}</span>
+    {{- else -}}
+    {{- with .Section -}}
+    <span class="article-category">{{ . | title }}</span>
+    {{- end -}}
+    {{- end -}}
+
+    <h1 class="article-title">{{ .Title }}</h1>
+
+    <div class="article-meta">
+      {{- $rt := .ReadingTime -}}
+      {{- if gt $rt 0 -}}
+      <span class="article-meta-item">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" width="16" height="16">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        {{ $rt }} min read
+      </span>
+      {{- end -}}
+      <span class="article-meta-separator" aria-hidden="true">·</span>
+      <time class="article-meta-item" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+      {{- if .Lastmod -}}
+      <span class="article-meta-separator" aria-hidden="true">·</span>
+      <time class="article-meta-item" datetime="{{ .Lastmod.Format "2006-01-02" }}">Updated {{ .Lastmod.Format "January 2, 2006" }}</time>
+      {{- end -}}
+    </div>
+
+    {{- if .Params.tags -}}
+    <div class="article-tags">
+      {{- range .Params.tags -}}
+      <a href="/tags/{{ . | urlize }}/" class="article-tag">{{ . }}</a>
+      {{- end -}}
+    </div>
+    {{- end -}}
+  </header>
+
+  <div class="article-layout">
+    <div class="article-main">
+      <div class="article-content">
+        {{- .Content -}}
+      </div>
+
+      {{- /* Footer with Prev/Next and Related */ -}}
+      <footer class="article-footer">
+        {{- /* Previous / Next Article */ -}}
+        {{- if .Site.Params.prevNext.enable -}}
+        <nav class="article-nav" aria-label="Article navigation">
+          {{- with .PrevInSection -}}
+          <a href="{{ .RelPermalink }}" class="article-nav-link article-nav-prev" rel="prev">
+            <span class="article-nav-label">Previous</span>
+            <span class="article-nav-title">{{ .Title }}</span>
+          </a>
+          {{- end -}}
+          {{- with .NextInSection -}}
+          <a href="{{ .RelPermalink }}" class="article-nav-link article-nav-next" rel="next">
+            <span class="article-nav-label">Next</span>
+            <span class="article-nav-title">{{ .Title }}</span>
+          </a>
+          {{- end -}}
+        </nav>
+        {{- end -}}
+
+        {{- /* Related Articles */ -}}
+        {{- if .Site.Params.related.enable -}}
+        {{- $related := .Site.RegularPages.Related . | first .Site.Params.related.limit -}}
+        {{- if $related -}}
+        <section class="related-articles" aria-labelledby="related-heading">
+          <h3 id="related-heading">Related Articles</h3>
+          <ul class="related-articles-list">
+            {{- range $related -}}
+            <li>
+              <article class="related-article">
+                <a href="{{ .RelPermalink }}" class="related-article-link" aria-label="Read {{ .Title }}">
+                  <h4 class="related-article-title">{{ .Title }}</h4>
+                  <div class="related-article-meta">
+                    {{- with .Params.category -}}
+                    <span class="related-article-category">{{ . }}</span>
+                    {{- else -}}
+                    {{- with .Section -}}
+                    <span class="related-article-category">{{ . | title }}</span>
+                    {{- end -}}
+                    {{- end -}}
+                    {{- $rt := .ReadingTime -}}
+                    {{- if gt $rt 0 -}}
+                    <span class="related-article-reading-time">{{ $rt }} min</span>
+                    {{- end -}}
+                    <time class="related-article-date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
+                  </div>
+                </a>
+              </article>
+            </li>
+            {{- end -}}
+          </ul>
+        </section>
+        {{- end -}}
+        {{- end -}}
+      </footer>
+    </div>
+
+    {{- /* Table of Contents */ -}}
+    {{- if and .Site.Params.toc.enable (gt (len .TableOfContents) 0) -}}
+    <aside class="toc" aria-label="Table of contents">
+      <h4 class="toc-title">On this page</h4>
+      <nav class="toc-nav">
+        {{ .TableOfContents }}
+      </nav>
+    </aside>
+    {{- end -}}
+  </div>
+</article>
+{{ end }}
