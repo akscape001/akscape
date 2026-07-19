@@ -1,0 +1,101 @@
+{{ define "main" }}
+<article class="article-layout">
+  <div class="article-container">
+
+    {{/* Main content column */}}
+    <div class="article-main">
+
+      {{/* Breadcrumb */}}
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        {{ range .Ancestors.Reverse }}
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        {{ end }}
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span>{{ .Title }}</span>
+      </nav>
+
+      {{/* Article header */}}
+      <header class="article-header">
+        {{ with .Parent }}
+        <p class="article-section-label">{{ .Title }}</p>
+        {{ end }}
+        <h1 class="article-title">{{ .Title }}</h1>
+        {{ with .Description }}
+        <p class="article-description">{{ . }}</p>
+        {{ end }}
+        <div class="article-meta">
+          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+          <span class="meta-sep">·</span>
+          <span>{{ .ReadingTime }} min read</span>
+          {{ with .Params.tags }}
+          <span class="meta-sep">·</span>
+          {{ range . }}<a href="/tags/{{ . | urlize }}/" class="tag">{{ . }}</a>{{ end }}
+          {{ end }}
+        </div>
+      </header>
+
+      {{/* Article body */}}
+      <div class="article-body">
+        {{ .Content }}
+      </div>
+
+      {{/* Tags */}}
+      {{ with .Params.tags }}
+      <div class="tag-list">
+        {{ range . }}
+        <a href="/tags/{{ . | urlize }}/" class="tag">{{ . }}</a>
+        {{ end }}
+      </div>
+      {{ end }}
+
+      {{/* Related articles */}}
+      {{ $related := .Site.RegularPages.Related . | first 3 }}
+      {{ if $related }}
+      <aside class="related-articles" aria-label="Related articles">
+        <p class="related-title">Related</p>
+        <div class="related-grid">
+          {{ range $related }}
+          <a href="{{ .RelPermalink }}" class="related-card">
+            <p class="related-card-title">{{ .Title }}</p>
+            <p class="related-card-date">{{ .Date.Format "Jan 2, 2006" }}</p>
+          </a>
+          {{ end }}
+        </div>
+      </aside>
+      {{ end }}
+
+      {{/* Prev / Next */}}
+      {{ if or .PrevInSection .NextInSection }}
+      <nav class="prev-next" aria-label="Article navigation">
+        {{ if .PrevInSection }}
+        <a href="{{ .PrevInSection.RelPermalink }}" class="prev-next-link prev">
+          <p class="prev-next-label">← Previous</p>
+          <p class="prev-next-title">{{ .PrevInSection.Title }}</p>
+        </a>
+        {{ else }}
+        <div></div>
+        {{ end }}
+        {{ if .NextInSection }}
+        <a href="{{ .NextInSection.RelPermalink }}" class="prev-next-link next">
+          <p class="prev-next-label">Next →</p>
+          <p class="prev-next-title">{{ .NextInSection.Title }}</p>
+        </a>
+        {{ end }}
+      </nav>
+      {{ end }}
+
+    </div>
+
+    {{/* Sidebar: Table of Contents */}}
+    {{ if .TableOfContents }}
+    <aside class="toc-sidebar" aria-label="Table of contents">
+      <p class="toc-title">Contents</p>
+      {{ .TableOfContents }}
+    </aside>
+    {{ end }}
+
+  </div>
+</article>
+{{ end }}

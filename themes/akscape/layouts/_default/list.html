@@ -1,0 +1,64 @@
+{{ define "main" }}
+<div class="section-page">
+  <div class="container">
+
+    <header class="section-page-header">
+      <h1 class="section-page-title">{{ .Title }}</h1>
+      {{ with .Description }}<p class="section-page-desc">{{ . }}</p>{{ end }}
+      {{ with .Content }}<div class="about-body" style="margin-top:1.5rem">{{ . }}</div>{{ end }}
+    </header>
+
+    {{/* Show subsections if this is a top-level section */}}
+    {{ if .Sections }}
+    <div class="subsections">
+      {{ range .Sections }}
+      <a href="{{ .RelPermalink }}" class="subsection-card">
+        <p class="subsection-card-name">{{ .Title }}</p>
+        <p class="subsection-card-count">{{ len .RegularPages }} {{ if eq (len .RegularPages) 1 }}article{{ else }}articles{{ end }}</p>
+      </a>
+      {{ end }}
+    </div>
+    {{ end }}
+
+    {{/* Article list */}}
+    {{ if .RegularPages }}
+    <div class="article-list">
+      {{ range .Paginator.Pages }}
+      <a href="{{ .RelPermalink }}" class="article-list-item">
+        <div>
+          <p class="article-list-title">{{ .Title }}</p>
+          {{ with .Description }}<p class="article-list-desc">{{ . }}</p>{{ end }}
+        </div>
+        <span class="article-list-date">{{ .Date.Format "Jan 2, 2006" }}</span>
+      </a>
+      {{ end }}
+    </div>
+
+    {{/* Pagination */}}
+    {{ template "pagination" . }}
+    {{ end }}
+
+  </div>
+</div>
+{{ end }}
+
+{{ define "pagination" }}
+{{ $p := .Paginator }}
+{{ if gt $p.TotalPages 1 }}
+<nav class="pagination" aria-label="Pagination">
+  {{ if $p.HasPrev }}
+  <a href="{{ $p.Prev.URL }}" aria-label="Previous page">←</a>
+  {{ end }}
+  {{ range $p.Pagers }}
+  {{ if eq . $p }}
+  <span class="current" aria-current="page">{{ .PageNumber }}</span>
+  {{ else }}
+  <a href="{{ .URL }}">{{ .PageNumber }}</a>
+  {{ end }}
+  {{ end }}
+  {{ if $p.HasNext }}
+  <a href="{{ $p.Next.URL }}" aria-label="Next page">→</a>
+  {{ end }}
+</nav>
+{{ end }}
+{{ end }}

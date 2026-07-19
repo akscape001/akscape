@@ -1,12 +1,14 @@
 {
   "name": "akscape",
+  "version": "1.0.0",
+  "description": "Akscape — personal knowledge website",
   "private": true,
   "scripts": {
-    "pagefind": "pagefind --site public",
-    "dev": "hugo server -D",
-    "build": "hugo --minify --gc --baseURL \"https://akscape.com/\""
+    "build": "hugo --minify && npx pagefind --site public",
+    "dev": "hugo server --buildDrafts",
+    "index": "npx pagefind --site public"
   },
   "devDependencies": {
-    "pagefind": "^1.1.0"
+    "pagefind": "^1.3.0"
   }
 }

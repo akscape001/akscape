@@ -1,7 +1,0 @@
-{{- $darkModeEnabled := .Site.Params.darkMode.enable | default true -}}
-{{- if $darkModeEnabled -}}
-  {{- $default := .Site.Params.darkMode.default | default "system" -}}
-  {{- if eq $default "dark" -}}dark{{- else if eq $default "light" -}}light{{- else -}}system{{- end -}}
-{{- else -}}
-  light
-{{- end -}}

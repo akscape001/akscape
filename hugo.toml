@@ -1,0 +1,146 @@
+baseURL = "https://akscape.com/"
+defaultContentLanguage = "en"
+title = "Akscape"
+theme = "akscape"
+enableRobotsTXT = true
+enableGitInfo = true
+paginate = 10
+copyright = "Arun Kumar Venkitaraman"
+
+[params]
+  author       = "Arun Kumar Venkitaraman"
+  description  = "A knowledge website covering computer science, mathematics, AI, philosophy and more."
+  githubURL    = "https://github.com/arunkumarvenkitaraman"
+  linkedinURL  = "https://linkedin.com/in/arunkumarvenkitaraman"
+  email        = "hello@akscape.com"
+  rssURL       = "/index.xml"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.highlight]
+    style          = "github"
+    lineNos        = false
+    noClasses      = false
+    codeFences     = true
+    guessSyntax    = true
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel   = 4
+    ordered    = false
+
+[outputs]
+  home    = ["HTML", "RSS"]
+  section = ["HTML", "RSS"]
+  page    = ["HTML"]
+
+[taxonomies]
+  tag      = "tags"
+  category = "categories"
+
+[[menus.main]]
+  name       = "Home"
+  url        = "/"
+  weight     = 1
+
+[[menus.main]]
+  name       = "Learn"
+  url        = "/learn/"
+  weight     = 2
+  identifier = "learn"
+
+[[menus.main]]
+  name   = "Computer Science"
+  url    = "/learn/computer-science/"
+  weight = 1
+  parent = "learn"
+
+[[menus.main]]
+  name   = "Artificial Intelligence"
+  url    = "/learn/artificial-intelligence/"
+  weight = 2
+  parent = "learn"
+
+[[menus.main]]
+  name   = "Mathematics"
+  url    = "/learn/mathematics/"
+  weight = 3
+  parent = "learn"
+
+[[menus.main]]
+  name   = "Physics"
+  url    = "/learn/physics/"
+  weight = 4
+  parent = "learn"
+
+[[menus.main]]
+  name       = "Reviews"
+  url        = "/reviews/"
+  weight     = 3
+  identifier = "reviews"
+
+[[menus.main]]
+  name   = "Technology"
+  url    = "/reviews/technology/"
+  weight = 1
+  parent = "reviews"
+
+[[menus.main]]
+  name   = "Books"
+  url    = "/reviews/books/"
+  weight = 2
+  parent = "reviews"
+
+[[menus.main]]
+  name   = "Movies"
+  url    = "/reviews/movies/"
+  weight = 3
+  parent = "reviews"
+
+[[menus.main]]
+  name   = "Food"
+  url    = "/reviews/food/"
+  weight = 4
+  parent = "reviews"
+
+[[menus.main]]
+  name   = "Places"
+  url    = "/reviews/places/"
+  weight = 5
+  parent = "reviews"
+
+[[menus.main]]
+  name       = "Reflect"
+  url        = "/reflect/"
+  weight     = 4
+  identifier = "reflect"
+
+[[menus.main]]
+  name   = "Philosophy"
+  url    = "/reflect/philosophy/"
+  weight = 1
+  parent = "reflect"
+
+[[menus.main]]
+  name   = "Spirituality"
+  url    = "/reflect/spirituality/"
+  weight = 2
+  parent = "reflect"
+
+[[menus.main]]
+  name   = "Life"
+  url    = "/reflect/life/"
+  weight = 3
+  parent = "reflect"
+
+[[menus.main]]
+  name   = "Sports"
+  url    = "/reflect/sports/"
+  weight = 4
+  parent = "reflect"
+
+[[menus.main]]
+  name   = "About"
+  url    = "/about/"
+  weight = 5

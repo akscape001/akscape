@@ -1,8 +1,0 @@
-taxonomies:
-  tag: 'tags'
-  section: 'sections'
-
-# Tags configuration
-tags:
-  paginate: 20
-  pageSize: 20

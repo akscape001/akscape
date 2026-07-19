@@ -1,0 +1,50 @@
+<nav class="site-nav" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">{{ .Site.Title }}</a>
+
+    <ul class="nav-links" id="nav-links" role="list">
+      {{ range .Site.Menus.main }}
+        {{ if not .Parent }}
+          {{/* Collect child menu items for this top-level item */}}
+          {{ $children := where $.Site.Menus.main "Parent" .Identifier }}
+          <li class="nav-item">
+            {{ if $children }}
+              <a href="{{ .URL }}" class="nav-link{{ if or (eq $.RelPermalink .URL) (hasPrefix $.RelPermalink .URL) }} active{{ end }}"
+                 aria-haspopup="true">{{ .Name }}</a>
+              <ul class="nav-dropdown" role="list">
+                {{ range $children }}
+                <li>
+                  <a href="{{ .URL }}"{{ if or (eq $.RelPermalink .URL) (hasPrefix $.RelPermalink .URL) }} aria-current="page"{{ end }}>{{ .Name }}</a>
+                </li>
+                {{ end }}
+              </ul>
+            {{ else }}
+              <a href="{{ .URL }}" class="nav-link{{ if eq $.RelPermalink .URL }} active{{ end }}">{{ .Name }}</a>
+            {{ end }}
+          </li>
+        {{ end }}
+      {{ end }}
+    </ul>
+
+    <div class="nav-actions">
+      <a href="/search/" class="nav-btn" aria-label="Search">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+      </a>
+      <button class="nav-btn" id="theme-toggle" aria-label="Toggle dark mode" type="button">
+        <svg class="icon-sun" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M18.36 5.64l1.41-1.41"/>
+        </svg>
+        <svg class="icon-moon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true" style="display:none">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+      <button class="nav-btn nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links" type="button">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>

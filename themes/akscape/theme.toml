@@ -1,0 +1,14 @@
+name        = "Akscape"
+license     = "MIT"
+licenselink = "https://github.com/arunkumarvenkitaraman/akscape/blob/main/LICENSE"
+description = "A premium, typography-first knowledge theme for Hugo."
+homepage    = "https://akscape.com"
+min_version = "0.140.0"
+
+[author]
+  name    = "Arun Kumar Venkitaraman"
+  homepage = "https://akscape.com"
+
+[features]
+  customSCSS = false
+  usePageBundles = false
