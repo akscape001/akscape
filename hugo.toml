@@ -1,6 +1,6 @@
 baseURL = "https://akscape.com/"
 defaultContentLanguage = "en"
-title = "Akscape"
+title = "akscape"
 theme = "akscape"
 enableRobotsTXT = true
 enableGitInfo = true
@@ -45,7 +45,7 @@ copyright = "Arun Kumar Venkitaraman"
   weight     = 1
 
 [[menus.main]]
-  name       = "Learn"
+  name       = "Explore"
   url        = "/learn/"
   weight     = 2
   identifier = "learn"
@@ -141,6 +141,19 @@ copyright = "Arun Kumar Venkitaraman"
   parent = "reflect"
 
 [[menus.main]]
-  name   = "About"
-  url    = "/about/"
-  weight = 5
+  name       = "About"
+  url        = "/about/"
+  weight     = 5
+  identifier = "about"
+
+[[menus.main]]
+  name   = "Story"
+  url    = "/about/#story"
+  weight = 1
+  parent = "about"
+
+[[menus.main]]
+  name   = "Contact"
+  url    = "/about/#contact"
+  weight = 2
+  parent = "about"

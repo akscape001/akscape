@@ -3,7 +3,7 @@
   <div class="container">
     <h1 class="about-title">About</h1>
 
-    <section class="about-section">
+    <section class="about-section" id="story">
       <p class="about-section-title">Story</p>
       <div class="about-body">
         {{ with .Params.story }}
@@ -14,14 +14,7 @@
       </div>
     </section>
 
-    {{ with .Params.now }}
-    <section class="about-section">
-      <p class="about-section-title">Now</p>
-      <div class="about-body">{{ . | markdownify }}</div>
-    </section>
-    {{ end }}
-
-    <section class="about-section">
+    <section class="about-section" id="contact">
       <p class="about-section-title">Contact</p>
       <div class="contact-links">
         {{ with $.Site.Params.email }}

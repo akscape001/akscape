@@ -1,38 +1,36 @@
 <script>
 (function () {
-  const html = document.documentElement;
-  const btn = document.getElementById('theme-toggle');
-  const sunIcon = btn && btn.querySelector('.icon-sun');
-  const moonIcon = btn && btn.querySelector('.icon-moon');
+  var html = document.documentElement;
+  var btn = document.getElementById('theme-toggle');
+  var sunIcon = btn && btn.querySelector('.icon-sun');
+  var moonIcon = btn && btn.querySelector('.icon-moon');
 
-  /* Apply saved or system preference immediately */
-  const saved = localStorage.getItem('theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const isDark = saved === 'dark' || (!saved && prefersDark);
-  if (isDark) html.dataset.theme = 'dark';
-
-  function updateIcons(dark) {
-    if (!sunIcon || !moonIcon) return;
-    sunIcon.style.display = dark ? 'none' : '';
-    moonIcon.style.display = dark ? '' : 'none';
+  function updateIcons() {
+    var dark = html.dataset.theme === 'dark';
+    if (sunIcon) sunIcon.style.display = dark ? 'none' : '';
+    if (moonIcon) moonIcon.style.display = dark ? '' : 'none';
   }
-  updateIcons(isDark);
 
+  /* Sync icons with current theme (already applied by inline head script) */
+  updateIcons();
+
+  /* Toggle on click */
   if (btn) {
     btn.addEventListener('click', function () {
-      const nowDark = html.dataset.theme === 'dark';
-      html.dataset.theme = nowDark ? 'light' : 'dark';
-      localStorage.setItem('theme', html.dataset.theme);
-      updateIcons(!nowDark);
+      var nowDark = html.dataset.theme === 'dark';
+      var next = nowDark ? 'light' : 'dark';
+      html.dataset.theme = next;
+      localStorage.setItem('theme', next);
+      updateIcons();
     });
   }
 
   /* Mobile hamburger */
-  const hamburger = document.getElementById('nav-hamburger');
-  const navLinks = document.getElementById('nav-links');
+  var hamburger = document.getElementById('nav-hamburger');
+  var navLinks = document.getElementById('nav-links');
   if (hamburger && navLinks) {
     hamburger.addEventListener('click', function () {
-      const open = navLinks.classList.toggle('is-open');
+      var open = navLinks.classList.toggle('is-open');
       hamburger.setAttribute('aria-expanded', String(open));
     });
   }

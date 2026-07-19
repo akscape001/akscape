@@ -1,5 +1,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+{{/* Inline theme init — runs before any render to prevent flash of wrong theme */}}
+<script>
+(function(){
+  var s = localStorage.getItem('theme');
+  var d = document.documentElement;
+  if (s === 'dark' || s === 'light') {
+    d.dataset.theme = s;
+  } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    d.dataset.theme = 'dark';
+  }
+})();
+</script>
 <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} · {{ .Site.Title }}{{ end }}</title>
 
 {{/* SEO */}}
