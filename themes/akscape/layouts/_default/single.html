@@ -11,10 +11,10 @@
         <nav class="breadcrumb" aria-label="Breadcrumb">
           {{ range $i, $a := where .Ancestors.Reverse "IsHome" false }}
           {{ if $i }}<span class="breadcrumb-sep" aria-hidden="true">/</span>{{ end }}
-          <a href="{{ $a.RelPermalink }}">{{ $a.Title }}</a>
+          <a href="{{ $a.RelPermalink }}">{{ $a.LinkTitle }}</a>
           {{ end }}
         </nav>
-        <h1 class="article-title">{{ .Title }}</h1>
+        <h1 class="article-title" data-pagefind-meta="title" style="view-transition-name: t-{{ .File.UniqueID }}">{{ .Title }}</h1>
         {{ with .Description }}
         <p class="article-description">{{ . }}</p>
         {{ end }}
@@ -30,7 +30,7 @@
       </header>
 
       {{/* Article body */}}
-      <div class="article-body">
+      <div class="article-body" data-pagefind-body>
         {{ .Content }}
       </div>
 

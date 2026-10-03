@@ -1,61 +1,37 @@
 {{ define "main" }}
-<div class="section-page">
-  <div class="container">
+<div class="page">
+  <header class="section-page-header">
+    {{ with .Parent }}{{ if not .IsHome }}
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="{{ .RelPermalink }}">← {{ .LinkTitle }}</a>
+    </nav>
+    {{ end }}{{ end }}
+    <h1 class="section-page-title">{{ .Title }}</h1>
+    {{ with .Description }}<p class="section-page-desc">{{ . }}</p>{{ end }}
+    {{ with .Content }}<div class="about-body section-page-content">{{ . }}</div>{{ end }}
+  </header>
 
-    <header class="section-page-header">
-      {{ with .Parent }}{{ if not .IsHome }}
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="{{ .RelPermalink }}">← {{ .Title }}</a>
-      </nav>
-      {{ end }}{{ end }}
-      <h1 class="section-page-title">{{ .Title }}</h1>
-      {{ with .Description }}<p class="section-page-desc">{{ . }}</p>{{ end }}
-      {{ with .Content }}<div class="about-body section-page-content">{{ . }}</div>{{ end }}
-    </header>
+  {{ if eq .Kind "taxonomy" }}
+    {{/* e.g. /tags/ — list every term with its count */}}
+    <ul class="topic-chips" role="list">
+      {{ range .Data.Terms.ByCount }}
+      <li><a href="{{ .Page.RelPermalink }}" class="topic-chip">{{ .Page.Title }}<span class="topic-chip-count">{{ .Count }}</span></a></li>
+      {{ end }}
+    </ul>
+  {{ else }}
 
-    {{ if eq .Kind "taxonomy" }}
-      {{/* e.g. /tags/ — list every term with its count */}}
-      <ul class="topic-chips" role="list">
-        {{ range .Data.Terms.ByCount }}
-        <li><a href="{{ .Page.RelPermalink }}" class="topic-chip">{{ .Page.Title }}<span class="topic-chip-count">{{ .Count }}</span></a></li>
-        {{ end }}
-      </ul>
+    {{ partial "topic-chips.html" .Sections }}
+
+    {{ $pages := cond .IsSection .RegularPagesRecursive .Pages }}
+    {{ if $pages }}
+      {{ $paginator := .Paginate $pages }}
+      {{ partial "post-list.html" $paginator.Pages }}
+      {{ template "pagination" . }}
     {{ else }}
-
-      {{/* Subsection cards, counted recursively */}}
-      {{ with .Sections }}
-      <div class="subsections">
-        {{ range . }}
-        {{ $n := len .RegularPagesRecursive }}
-        <a href="{{ .RelPermalink }}" class="subsection-card{{ if eq $n 0 }} is-empty{{ end }}">
-          <p class="subsection-card-name">{{ .Title }}</p>
-          {{ with .Description }}<p class="subsection-card-desc">{{ . }}</p>{{ end }}
-          <p class="subsection-card-count">
-            {{ if eq $n 0 }}<span class="badge-soon">Coming soon</span>
-            {{ else }}{{ $n }} {{ if eq $n 1 }}article{{ else }}articles{{ end }}{{ end }}
-          </p>
-        </a>
-        {{ end }}
-      </div>
-      {{ end }}
-
-      {{ $pages := cond .IsSection .RegularPagesRecursive .Pages }}
-      {{ if $pages }}
-        {{ if .Sections }}
-        <div class="section-header"><span class="section-title">Latest in {{ .Title }}</span></div>
-        {{ end }}
-        {{ $paginator := .Paginate $pages }}
-        <div class="article-list">
-          {{ range $paginator.Pages }}{{ partial "article-item.html" . }}{{ end }}
-        </div>
-        {{ template "pagination" . }}
-      {{ else }}
-        {{ partial "coming-soon.html" . }}
-      {{ end }}
-
+      {{ partial "coming-soon.html" . }}
     {{ end }}
 
-  </div>
+  {{ end }}
 </div>
 {{ end }}
 

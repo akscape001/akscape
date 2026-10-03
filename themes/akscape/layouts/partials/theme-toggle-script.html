@@ -17,11 +17,27 @@
   /* Toggle on click */
   if (btn) {
     btn.addEventListener('click', function () {
-      var nowDark = html.dataset.theme === 'dark';
-      var next = nowDark ? 'light' : 'dark';
-      html.dataset.theme = next;
-      try { localStorage.setItem('theme', next); } catch (e) {}
-      updateIcons();
+      var next = html.dataset.theme === 'dark' ? 'light' : 'dark';
+      function apply() {
+        html.dataset.theme = next;
+        try { localStorage.setItem('theme', next); } catch (e) {}
+        updateIcons();
+      }
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!document.startViewTransition || reduce) { apply(); return; }
+      /* Circular reveal of the new theme, growing from the toggle button */
+      var r = btn.getBoundingClientRect();
+      var x = r.left + r.width / 2, y = r.top + r.height / 2;
+      var radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+      html.classList.add('theme-switching');
+      var vt = document.startViewTransition(apply);
+      vt.ready.then(function () {
+        html.animate(
+          { clipPath: ['circle(0px at ' + x + 'px ' + y + 'px)', 'circle(' + radius + 'px at ' + x + 'px ' + y + 'px)'] },
+          { duration: 450, easing: 'cubic-bezier(.4,0,.2,1)', pseudoElement: '::view-transition-new(root)' }
+        );
+      });
+      vt.finished.finally(function () { html.classList.remove('theme-switching'); });
     });
   }
 
@@ -42,15 +58,9 @@
     });
   }
 
-  /* Keyboard: "/" opens search, Esc closes the mobile menu */
+  /* Esc closes the mobile menu */
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && navLinks && navLinks.classList.contains('is-open')) setMenu(false);
-    if (e.key !== '/' || e.metaKey || e.ctrlKey || e.altKey) return;
-    var t = e.target;
-    if (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return;
-    var input = document.querySelector('.pagefind-ui__search-input');
-    e.preventDefault();
-    if (input) input.focus(); else window.location.href = '/search/';
   });
 
   /* Article: reading progress + table-of-contents scroll-spy */
@@ -106,5 +116,28 @@
     wrap.classList.add('has-copy');
     wrap.appendChild(b);
   });
+
+  /* Sidenotes: on wide screens, show each footnote in the right margin beside its reference */
+  var refs = document.querySelectorAll('.article-body sup[id^="fnref"] a[href^="#fn"]');
+  if (refs.length) {
+    var wide = window.matchMedia('(min-width: 1280px)');
+    var notes = [];
+    refs.forEach(function (a, i) {
+      var li = document.getElementById(decodeURIComponent(a.hash.slice(1)));
+      var block = a.closest('p, li, blockquote, table') || a.parentNode;
+      if (!li || !block) return;
+      var aside = document.createElement('aside');
+      aside.className = 'sidenote';
+      aside.setAttribute('role', 'note');
+      var clone = li.cloneNode(true);
+      clone.querySelectorAll('.footnote-backref').forEach(function (b) { b.remove(); });
+      aside.innerHTML = '<span class="sidenote-num">' + (i + 1) + '</span>' + clone.innerHTML;
+      block.parentNode.insertBefore(aside, block);
+      notes.push(aside);
+    });
+    var syncNotes = function () { document.documentElement.classList.toggle('has-sidenotes', wide.matches && notes.length > 0); };
+    wide.addEventListener('change', syncNotes);
+    syncNotes();
+  }
 })();
 </script>

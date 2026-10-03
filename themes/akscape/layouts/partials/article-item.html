@@ -1,12 +1,9 @@
 {{/* One row in an article list. Context: a regular page. */}}
 <a href="{{ .RelPermalink }}" class="article-list-item">
-  <div class="article-list-main">
-    <p class="article-list-kicker">
-      {{ with .Parent }}<span>{{ .Title }}</span><span class="meta-sep">·</span>{{ end }}
-      <span>{{ .ReadingTime }} min</span>
-    </p>
-    <p class="article-list-title">{{ .Title }}</p>
-    {{ with .Description }}<p class="article-list-desc">{{ . }}</p>{{ end }}
-  </div>
-  <time class="article-list-date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
+  <span class="article-list-title" style="view-transition-name: t-{{ .File.UniqueID }}">{{ .Title }}</span>
+  <span class="article-list-meta">
+    {{ with .Parent }}<span class="article-list-section">{{ .LinkTitle }}</span>{{ end }}
+    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2" }}</time>
+  </span>
+  {{ with .Description }}<span class="article-list-desc">{{ . }}</span>{{ end }}
 </a>

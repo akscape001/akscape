@@ -3,30 +3,33 @@
     <a href="/" class="nav-logo">{{ .Site.Title }}</a>
 
     <ul class="nav-links" id="nav-links" role="list">
-      {{ range .Site.Menus.main }}
-        {{ if not .Parent }}
-          {{ $children := .Children }}
+      {{/* Built from content: only sections that have posts appear */}}
+      {{ range site.Sections }}
+        {{ if and .Sections (gt (len .RegularPagesRecursive) 0) }}
+          {{ $active := hasPrefix $.RelPermalink .RelPermalink }}
+          {{ $children := slice }}
+          {{ range .Sections }}{{ if gt (len .RegularPagesRecursive) 0 }}{{ $children = $children | append . }}{{ end }}{{ end }}
           <li class="nav-item">
-            {{ if $children }}
-              <a href="{{ .URL }}" class="nav-link{{ if or (eq $.RelPermalink .URL) (hasPrefix $.RelPermalink .URL) }} active{{ end }}"
-                 aria-haspopup="true">{{ .Name }}</a>
-              <ul class="nav-dropdown" role="list">
-                {{ range $children }}
-                <li>
-                  <a href="{{ .URL }}"{{ if or (eq $.RelPermalink .URL) (hasPrefix $.RelPermalink .URL) }} aria-current="page"{{ end }}>{{ .Name }}</a>
-                </li>
-                {{ end }}
-              </ul>
-            {{ else }}
-              <a href="{{ .URL }}" class="nav-link{{ if eq $.RelPermalink .URL }} active{{ end }}"{{ if eq $.RelPermalink .URL }} aria-current="page"{{ end }}>{{ .Name }}</a>
+            <a href="{{ .RelPermalink }}" class="nav-link{{ if $active }} active{{ end }}"{{ if $children }} aria-haspopup="true"{{ end }}>{{ .LinkTitle }}</a>
+            {{ with $children }}
+            <ul class="nav-dropdown" role="list">
+              {{ range . }}
+              <li><a href="{{ .RelPermalink }}"{{ if hasPrefix $.RelPermalink .RelPermalink }} aria-current="page"{{ end }}>{{ .LinkTitle }}</a></li>
+              {{ end }}
+            </ul>
             {{ end }}
           </li>
         {{ end }}
       {{ end }}
+      {{ with site.GetPage "/about" }}
+      <li class="nav-item">
+        <a href="{{ .RelPermalink }}" class="nav-link{{ if eq $.RelPermalink .RelPermalink }} active{{ end }}">{{ .LinkTitle }}</a>
+      </li>
+      {{ end }}
     </ul>
 
     <div class="nav-actions">
-      <a href="/search/" class="nav-btn" aria-label="Search">
+      <a href="/search/" class="nav-btn" id="search-open" aria-label="Search (⌘K)" title="Search  ⌘K">
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
           <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
         </svg>

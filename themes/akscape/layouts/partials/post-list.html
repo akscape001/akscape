@@ -1,0 +1,9 @@
+{{/* Posts grouped by year under a thin rule. Context: a page collection. */}}
+{{ range .GroupByDate "2006" }}
+<section class="year-group" aria-label="{{ .Key }}">
+  <h2 class="year-label">{{ .Key }}</h2>
+  <div class="article-list">
+    {{ range .Pages }}{{ partial "article-item.html" . }}{{ end }}
+  </div>
+</section>
+{{ end }}

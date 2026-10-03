@@ -1,0 +1,10 @@
+{{/* Chips for subsections that have posts. Context: a list of section pages. */}}
+{{ $chips := slice }}
+{{ range . }}{{ if gt (len .RegularPagesRecursive) 0 }}{{ $chips = $chips | append . }}{{ end }}{{ end }}
+{{ with $chips }}
+<ul class="topic-chips" role="list">
+  {{ range . }}
+  <li><a href="{{ .RelPermalink }}" class="topic-chip">{{ .LinkTitle }}<span class="topic-chip-count">{{ len .RegularPagesRecursive }}</span></a></li>
+  {{ end }}
+</ul>
+{{ end }}

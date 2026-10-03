@@ -1,73 +1,20 @@
 {{ define "main" }}
-<header class="home-header">
-  <div class="container">
+<div class="page page-home">
+  <header class="home-header">
     <h1 class="home-site-title">{{ .Site.Title }}</h1>
     <p class="home-intro">{{ .Site.Params.description }}</p>
     {{ with .Content }}<div class="home-hello">{{ . }}</div>{{ end }}
+  </header>
+
+  {{/* Every leaf section with posts, across all top-level sections */}}
+  {{ $leaves := slice }}
+  {{ range .Site.Sections }}{{ range .Sections }}{{ $leaves = $leaves | append . }}{{ end }}{{ end }}
+  {{ partial "topic-chips.html" $leaves }}
+
+  {{ with .Site.RegularPages }}
+  <div class="home-posts">
+    {{ partial "post-list.html" . }}
   </div>
-</header>
-
-<div class="home-body">
-  <div class="container home-grid">
-
-    <div class="home-main">
-      {{/* Featured article */}}
-      {{ $featured := where .Site.RegularPages "Params.featured" true }}
-      {{ with $featured }}
-      {{ $fp := index . 0 }}
-      <section aria-label="Featured article" class="home-section">
-        <div class="section-header">
-          <span class="section-title">Featured</span>
-        </div>
-        <a href="{{ $fp.RelPermalink }}" class="featured-article">
-          {{ with $fp.Parent }}<p class="featured-label">{{ .Title }}</p>{{ end }}
-          <h2 class="featured-title">{{ $fp.Title }}</h2>
-          {{ with $fp.Description }}<p class="featured-desc">{{ . }}</p>{{ end }}
-          <div class="featured-meta">
-            <span>{{ $fp.Date.Format "January 2, 2006" }}</span>
-            <span class="meta-sep">·</span>
-            <span>{{ $fp.ReadingTime }} min read</span>
-          </div>
-        </a>
-      </section>
-      {{ end }}
-
-      {{/* Latest articles */}}
-      <section aria-label="Latest articles" class="home-section">
-        <div class="section-header">
-          <span class="section-title">Latest</span>
-          <a href="/search/" class="section-more">Search all <kbd>/</kbd></a>
-        </div>
-        <div class="article-list">
-          {{ range first 8 (complement (first 1 $featured) .Site.RegularPages) }}{{ partial "article-item.html" . }}{{ end }}
-        </div>
-      </section>
-    </div>
-
-    {{/* Topic map: every top-level section with its subsections */}}
-    <aside class="home-topics" aria-label="Topics">
-      <div class="section-header">
-        <span class="section-title">Topics</span>
-      </div>
-      {{ range .Site.Sections }}
-      {{ if .Sections }}
-      <div class="topic-group">
-        <a href="{{ .RelPermalink }}" class="topic-group-title">{{ .Title }}</a>
-        <ul class="topic-chips" role="list">
-          {{ range .Sections }}
-          {{ $n := len .RegularPagesRecursive }}
-          <li>
-            <a href="{{ .RelPermalink }}" class="topic-chip{{ if eq $n 0 }} is-empty{{ end }}">
-              {{ .Title }}{{ if gt $n 0 }}<span class="topic-chip-count">{{ $n }}</span>{{ else }}<span class="badge-soon">soon</span>{{ end }}
-            </a>
-          </li>
-          {{ end }}
-        </ul>
-      </div>
-      {{ end }}
-      {{ end }}
-    </aside>
-
-  </div>
+  {{ end }}
 </div>
 {{ end }}
