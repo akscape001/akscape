@@ -16,6 +16,13 @@ copyright = "Arun Kumar Venkitaraman"
   # Cloudflare Web Analytics token (dashboard → Analytics & Logs → Web Analytics). Empty = off.
   cloudflareAnalyticsToken = ""
 
+  # How lists adapt as the site grows (home, section hubs, archive)
+  [params.listing]
+    latestCount  = 8    # posts shown under "Latest" on the home page
+    startHereMin = 8    # show "Start here" (featured: true posts) once a list has more posts than this
+    topicsMin    = 2    # show topic filter once this many tags each have 2+ posts
+    compactAfter = 20   # lists longer than this hide descriptions
+
 # A lastmod in front matter wins over the git commit date (useful for imported posts)
 [frontmatter]
   lastmod = ["lastmod", ":git", ":fileModTime", "date"]

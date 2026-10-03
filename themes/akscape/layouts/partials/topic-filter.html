@@ -1,0 +1,28 @@
+{{/* Topic chips that filter the post list below (JS), or link to tag pages (no JS).
+     Only topics with 2+ posts get a chip; the bar shows once params.listing.topicsMin of them exist.
+     Context: (dict "pages" <collection>). */}}
+{{ $counts := dict }}
+{{ range .pages }}
+  {{ range .Params.tags }}
+    {{ $counts = merge $counts (dict . (add (index $counts . | default 0) 1)) }}
+  {{ end }}
+{{ end }}
+{{ $topics := slice }}
+{{ $strong := 0 }}
+{{ range $tag, $n := $counts }}
+  {{ if ge $n 2 }}
+    {{ $topics = $topics | append (dict "tag" $tag "n" $n) }}
+    {{ $strong = add $strong 1 }}
+  {{ end }}
+{{ end }}
+{{ if ge $strong (site.Params.listing.topicsMin | default 2) }}
+<div class="topic-filter" role="group" aria-label="Filter by topic">
+  <button type="button" class="topic-chip" data-topic="" aria-pressed="true">All<span class="topic-chip-count">{{ len .pages }}</span></button>
+  {{ range first 12 (sort $topics "n" "desc") }}
+    {{ $tag := .tag }}{{ $n := .n }}
+    {{ with site.GetPage (printf "/tags/%s" ($tag | urlize)) }}
+    <a href="{{ .RelPermalink }}" class="topic-chip" data-topic="{{ $tag }}" aria-pressed="false">#{{ $tag }}<span class="topic-chip-count">{{ $n }}</span></a>
+    {{ end }}
+  {{ end }}
+</div>
+{{ end }}

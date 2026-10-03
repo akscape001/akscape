@@ -1,0 +1,18 @@
+{{/* Series (2+ parts) that include posts from this list. Context: (dict "pages" <collection>). */}}
+{{ $here := .pages }}
+{{ $found := slice }}
+{{ with site.Taxonomies.series }}
+  {{ range .ByCount }}
+    {{ if and (ge .Count 2) (intersect .Pages $here) }}{{ $found = $found | append .Page }}{{ end }}
+  {{ end }}
+{{ end }}
+{{ with $found }}
+<section class="series-index" aria-label="Series">
+  <p class="section-title">Series</p>
+  <ul class="series-rows" role="list">
+    {{ range . }}
+    <li><a href="{{ .RelPermalink }}"><span class="series-row-name">{{ .LinkTitle }}</span><span class="series-row-count">{{ len .Pages }} parts</span></a></li>
+    {{ end }}
+  </ul>
+</section>
+{{ end }}

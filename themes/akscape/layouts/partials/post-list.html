@@ -1,9 +1,14 @@
-{{/* Posts grouped by year under a thin rule. Context: a page collection. */}}
-{{ range .GroupByDate "2006" }}
-<section class="year-group" aria-label="{{ .Key }}">
-  <h2 class="year-label">{{ .Key }}</h2>
-  <div class="article-list">
-    {{ range .Pages }}{{ partial "article-item.html" . }}{{ end }}
-  </div>
-</section>
-{{ end }}
+{{/* Posts grouped by year under a thin rule.
+     Context: (dict "pages" <collection> ["hideSection" bool]). Rows go compact past params.listing.compactAfter. */}}
+{{ $compact := gt (len .pages) (site.Params.listing.compactAfter | default 20) }}
+<div class="post-list">
+  {{ range .pages.GroupByDate "2006" }}
+  <section class="year-group" aria-label="{{ .Key }}">
+    <h2 class="year-label">{{ .Key }}</h2>
+    <div class="article-list">
+      {{ range .Pages }}{{ partial "article-item.html" (dict "page" . "compact" $compact "hideSection" $.hideSection) }}{{ end }}
+    </div>
+  </section>
+  {{ end }}
+  <p class="filter-empty" hidden>No posts on this topic here yet.</p>
+</div>

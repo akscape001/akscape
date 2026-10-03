@@ -1,9 +1,13 @@
-{{/* One row in an article list. Context: a regular page. */}}
-<a href="{{ .RelPermalink }}" class="article-list-item">
-  <span class="article-list-title" style="view-transition-name: t-{{ .File.UniqueID }}">{{ .Title }}</span>
+{{/* One row in an article list. Context: a page, or (dict "page" … "compact" bool "hideSection" bool). */}}
+{{- $p := . -}}
+{{- $compact := false -}}
+{{- $hideSection := false -}}
+{{- if reflect.IsMap . }}{{ $p = .page }}{{ $compact = .compact }}{{ $hideSection = .hideSection }}{{ end -}}
+<a href="{{ $p.RelPermalink }}" class="article-list-item{{ if $compact }} is-compact{{ end }}" data-tags="{{ delimit ($p.Params.tags | default slice) " " }}">
+  <span class="article-list-title" style="view-transition-name: t-{{ $p.File.UniqueID }}">{{ $p.Title }}</span>
   <span class="article-list-meta">
-    {{ with .Parent }}<span class="article-list-section">{{ .LinkTitle }}</span>{{ end }}
-    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2" }}</time>
+    {{ if not $hideSection }}{{ with $p.Parent }}<span class="article-list-section">{{ .LinkTitle }}</span>{{ end }}{{ end }}
+    <time datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date.Format "Jan 2" }}</time>
   </span>
-  {{ with .Description }}<span class="article-list-desc">{{ . }}</span>{{ end }}
+  {{ if not $compact }}{{ with $p.Description }}<span class="article-list-desc">{{ . }}</span>{{ end }}{{ end }}
 </a>

@@ -7,7 +7,7 @@
 {{- if eq .Kind "section" -}}
   {{- if eq .Section "search" -}}
     {{- $thin = true -}}
-  {{- else if ne .Section "about" -}}
+  {{- else if not (in (slice "about" "archive") .Section) -}}
     {{- $thin = eq (len .RegularPagesRecursive) 0 -}}
   {{- end -}}
 {{- else if eq .Kind "term" -}}

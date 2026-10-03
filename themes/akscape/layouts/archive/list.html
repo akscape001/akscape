@@ -1,0 +1,15 @@
+{{ define "main" }}
+{{ $all := .Site.RegularPages }}
+<div class="page">
+  <header class="section-page-header">
+    <h1 class="section-page-title">{{ .Title }}</h1>
+    <p class="section-page-desc">
+      {{ len $all }} {{ if eq (len $all) 1 }}post{{ else }}posts{{ end }}
+      {{ with len site.Taxonomies.tags }}across {{ . }} {{ if eq . 1 }}topic{{ else }}topics{{ end }}{{ end }}.
+    </p>
+  </header>
+  {{ partial "series-list.html" (dict "pages" $all) }}
+  {{ partial "topic-filter.html" (dict "pages" $all) }}
+  {{ partial "post-list.html" (dict "pages" $all) }}
+</div>
+{{ end }}

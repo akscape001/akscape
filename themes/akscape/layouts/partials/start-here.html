@@ -1,0 +1,12 @@
+{{/* "Start here": featured posts, shown once a list is long enough that they'd be buried.
+     Context: (dict "pages" <collection>). */}}
+{{ if gt (len .pages) (site.Params.listing.startHereMin | default 8) }}
+  {{ with (where .pages "Params.featured" true).ByWeight }}
+  <section class="start-here" aria-label="Start here">
+    <p class="section-title">Start here</p>
+    <div class="article-list">
+      {{ range . }}{{ partial "article-item.html" . }}{{ end }}
+    </div>
+  </section>
+  {{ end }}
+{{ end }}

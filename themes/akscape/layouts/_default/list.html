@@ -22,36 +22,18 @@
 
     {{ partial "topic-chips.html" .Sections }}
 
+    {{/* Hub layout: each block appears only once there's enough content (params.listing) */}}
     {{ $pages := cond .IsSection .RegularPagesRecursive .Pages }}
     {{ if $pages }}
-      {{ $paginator := .Paginate $pages }}
-      {{ partial "post-list.html" $paginator.Pages }}
-      {{ template "pagination" . }}
+      {{ partial "start-here.html" (dict "pages" $pages) }}
+      {{ if .IsSection }}{{ partial "series-list.html" (dict "pages" $pages) }}{{ end }}
+      {{ partial "topic-filter.html" (dict "pages" $pages) }}
+      {{/* A leaf section (e.g. Computer Science) doesn't need its own name on every row */}}
+      {{ partial "post-list.html" (dict "pages" $pages "hideSection" (and .IsSection (not .Sections))) }}
     {{ else }}
       {{ partial "coming-soon.html" . }}
     {{ end }}
 
   {{ end }}
 </div>
-{{ end }}
-
-{{ define "pagination" }}
-{{ $p := .Paginator }}
-{{ if gt $p.TotalPages 1 }}
-<nav class="pagination" aria-label="Pagination">
-  {{ if $p.HasPrev }}
-  <a href="{{ $p.Prev.URL }}" aria-label="Previous page">←</a>
-  {{ end }}
-  {{ range $p.Pagers }}
-  {{ if eq . $p }}
-  <span class="current" aria-current="page">{{ .PageNumber }}</span>
-  {{ else }}
-  <a href="{{ .URL }}">{{ .PageNumber }}</a>
-  {{ end }}
-  {{ end }}
-  {{ if $p.HasNext }}
-  <a href="{{ $p.Next.URL }}" aria-label="Next page">→</a>
-  {{ end }}
-</nav>
-{{ end }}
 {{ end }}

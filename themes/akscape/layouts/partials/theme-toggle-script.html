@@ -155,5 +155,38 @@
       });
     });
   });
+
+  /* Topic filter: chips filter the post list in place; #topic=<tag> makes it shareable */
+  var filter = document.querySelector('.topic-filter');
+  var list = document.querySelector('.post-list');
+  if (filter && list) {
+    var chips = filter.querySelectorAll('[data-topic]');
+    var applyTopic = function (topic) {
+      chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.topic === topic)); });
+      var shown = 0;
+      list.querySelectorAll('.year-group').forEach(function (g) {
+        var any = false;
+        g.querySelectorAll('.article-list-item').forEach(function (row) {
+          var match = !topic || (' ' + row.dataset.tags + ' ').indexOf(' ' + topic + ' ') !== -1;
+          row.hidden = !match;
+          if (match) any = true;
+        });
+        g.hidden = !any;
+        if (any) shown++;
+      });
+      var empty = list.querySelector('.filter-empty');
+      if (empty) empty.hidden = shown > 0;
+    };
+    chips.forEach(function (c) {
+      c.addEventListener('click', function (e) {
+        e.preventDefault();
+        var topic = c.dataset.topic;
+        applyTopic(topic);
+        history.replaceState(null, '', topic ? '#topic=' + encodeURIComponent(topic) : location.pathname);
+      });
+    });
+    var m = location.hash.match(/^#topic=(.+)$/);
+    if (m) applyTopic(decodeURIComponent(m[1]));
+  }
 })();
 </script>

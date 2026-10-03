@@ -1273,34 +1273,6 @@ main { flex: 1; }
 
 .share-link:hover { color: var(--color-text); border-color: var(--color-text-muted); }
 
-/* ── Paginated list ─────────────────────────────────────── */
-
-.pagination {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  margin-top: var(--space-12);
-  font-family: var(--font-sans);
-  font-size: var(--text-sm);
-}
-
-.pagination a,
-.pagination span {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 2.25rem;
-  height: 2.25rem;
-  border-radius: 7px;
-  text-decoration: none;
-  color: var(--color-text-muted);
-  transition: background-color var(--transition), color var(--transition);
-}
-
-.pagination a:hover { background-color: var(--color-surface); color: var(--color-text); }
-.pagination .current { background-color: var(--color-text); color: var(--color-bg); }
-
 /* ── Mermaid diagrams ────────────────────────────────────── */
 
 .mermaid {
@@ -1376,6 +1348,71 @@ kbd {
   border-radius: 4px;
   color: var(--color-text-faint);
 }
+
+/* ── Hub blocks: start here, series, topic filter ────────── */
+
+.start-here,
+.series-index { margin-bottom: var(--space-10); }
+
+.start-here .section-title,
+.series-index .section-title,
+.home-posts > .section-title { display: block; margin-bottom: var(--space-2); }
+
+.series-rows { list-style: none; }
+
+.series-rows a {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-2) 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.series-rows a:hover .series-row-name { text-decoration: underline; text-decoration-color: var(--color-highlight); text-underline-offset: 4px; }
+
+.series-row-count { font-size: var(--text-sm); color: var(--color-text-faint); white-space: nowrap; }
+
+.topic-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-8);
+}
+
+button.topic-chip { cursor: pointer; font: inherit; font-family: var(--font-sans); font-size: var(--text-sm); }
+
+.topic-chip[aria-pressed="true"] {
+  color: var(--color-text);
+  border-color: var(--color-highlight);
+  box-shadow: inset 0 0 0 1px var(--color-highlight);
+}
+
+.article-list-item.is-compact { padding: var(--space-2) 0; }
+
+.filter-empty {
+  padding: var(--space-6) 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  color: var(--color-text-faint);
+}
+
+.all-posts-link {
+  display: inline-block;
+  margin-top: var(--space-6);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text-muted);
+  text-decoration: none;
+}
+
+.all-posts-link:hover { color: var(--color-text); }
+
+.footer-text-link { color: inherit; text-decoration: none; }
+.footer-text-link:hover { color: var(--color-text); }
 
 /* ── Coming soon (empty section) ─────────────────────────── */
 

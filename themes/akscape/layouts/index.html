@@ -11,9 +11,20 @@
   {{ range .Site.Sections }}{{ range .Sections }}{{ $leaves = $leaves | append . }}{{ end }}{{ end }}
   {{ partial "topic-chips.html" $leaves }}
 
-  {{ with .Site.RegularPages }}
+  {{ $all := .Site.RegularPages }}
+  {{ partial "start-here.html" (dict "pages" $all) }}
+
+  {{ with $all }}
+  {{ $n := site.Params.listing.latestCount | default 8 }}
   <div class="home-posts">
-    {{ partial "post-list.html" . }}
+    {{ if gt (len $all) $n }}<p class="section-title">Latest</p>{{ end }}
+    {{/* When "Start here" is showing, don't repeat those posts under Latest */}}
+    {{ $latest := $all }}
+    {{ if gt (len $all) (site.Params.listing.startHereMin | default 8) }}{{ $latest = complement (where $all "Params.featured" true) $all }}{{ end }}
+    {{ partial "post-list.html" (dict "pages" (first $n $latest)) }}
+    {{ if gt (len $all) $n }}
+      {{ with site.GetPage "/archive" }}<a href="{{ .RelPermalink }}" class="all-posts-link">All {{ len $all }} posts →</a>{{ end }}
+    {{ end }}
   </div>
   {{ end }}
 </div>

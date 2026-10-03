@@ -2,6 +2,7 @@
   <div class="footer-inner">
     <p class="footer-copy">
       © {{ now.Year }} {{ .Site.Params.author }}
+      {{ with site.GetPage "/archive" }}<span class="meta-sep">·</span> <a href="{{ .RelPermalink }}" class="footer-text-link">{{ .Title }}</a>{{ end }}
     </p>
     <div class="footer-links">
       {{ with .Site.Params.githubURL }}
