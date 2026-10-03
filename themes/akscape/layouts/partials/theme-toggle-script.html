@@ -139,5 +139,21 @@
     wide.addEventListener('change', syncNotes);
     syncNotes();
   }
+
+  /* Share: native share sheet on phones, otherwise copy the link */
+  document.querySelectorAll('.share-copy').forEach(function (b) {
+    var label = b.querySelector('.share-copy-label');
+    var touch = navigator.share && window.matchMedia('(pointer: coarse)').matches;
+    if (touch && label) label.textContent = 'Share';
+    b.addEventListener('click', function () {
+      if (touch) { navigator.share({ title: b.dataset.title, url: b.dataset.url }).catch(function () {}); return; }
+      if (!navigator.clipboard) return;
+      navigator.clipboard.writeText(b.dataset.url).then(function () {
+        if (!label) return;
+        label.textContent = 'Copied!';
+        setTimeout(function () { label.textContent = 'Copy link'; }, 1500);
+      });
+    });
+  });
 })();
 </script>

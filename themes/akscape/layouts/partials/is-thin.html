@@ -1,0 +1,20 @@
+{{- /*
+  Returns true for pages with nothing worth indexing yet: empty sections,
+  the search tool page, tag pages with fewer than 2 posts, and tag indexes with no such tag.
+  Used for <meta name="robots" noindex> and to keep them out of sitemap.xml.
+*/ -}}
+{{- $thin := false -}}
+{{- if eq .Kind "section" -}}
+  {{- if eq .Section "search" -}}
+    {{- $thin = true -}}
+  {{- else if ne .Section "about" -}}
+    {{- $thin = eq (len .RegularPagesRecursive) 0 -}}
+  {{- end -}}
+{{- else if eq .Kind "term" -}}
+  {{- $thin = lt (len .Pages) 2 -}}
+{{- else if eq .Kind "taxonomy" -}}
+  {{- /* e.g. /tags/: thin until at least one tag has 2+ posts */ -}}
+  {{- $thin = true -}}
+  {{- range .Data.Terms }}{{ if ge (len .Pages) 2 }}{{ $thin = false }}{{ end }}{{ end -}}
+{{- end -}}
+{{- return $thin -}}

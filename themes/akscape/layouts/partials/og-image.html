@@ -1,0 +1,28 @@
+{{- /*
+  Returns an absolute URL for the page's social-share image.
+  Order: front-matter `image` → generated title card (articles) → site default.
+  The title card is drawn at build time with Geist: text goes on a transparent
+  canvas 96px narrower than the base (so long titles wrap with a right margin),
+  then is overlaid on assets/og/base.png.
+*/ -}}
+{{- $url := "" -}}
+{{- with .Params.image -}}
+  {{- $url = . | absURL -}}
+{{- else -}}
+  {{- if .IsPage -}}
+    {{- $base := resources.Get "og/base.png" -}}
+    {{- $semi := resources.Get "fonts/Geist-SemiBold.ttf" -}}
+    {{- $reg := resources.Get "fonts/Geist-Regular.ttf" -}}
+    {{- $filters := slice -}}
+    {{- with .Parent -}}
+      {{- $filters = $filters | append (images.Text (upper .LinkTitle) (dict "color" "#e8946a" "font" $reg "size" 26 "x" 96 "y" 214)) -}}
+    {{- end -}}
+    {{- $filters = $filters | append (images.Text .Title (dict "color" "#ededea" "font" $semi "size" 68 "linespacing" 10 "x" 96 "y" 262)) -}}
+    {{- $text := resources.Get "og/text-canvas.png" | images.Filter $filters -}}
+    {{- $img := $base | images.Filter (images.Overlay $text 0 0) -}}
+    {{- $url = $img.Permalink -}}
+  {{- else -}}
+    {{- with site.Params.ogImage }}{{ $url = . | absURL }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $url -}}

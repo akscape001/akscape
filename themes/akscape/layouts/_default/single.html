@@ -39,13 +39,15 @@
       {{ end }}
 
       {{/* Tags */}}
-      {{ with .Params.tags }}
+      {{ with .GetTerms "tags" }}
       <div class="tag-list">
         {{ range . }}
-        <a href="/tags/{{ . | urlize }}/" class="tag">{{ . }}</a>
+        <a href="{{ .RelPermalink }}" class="tag">#{{ .Data.Term }}</a>
         {{ end }}
       </div>
       {{ end }}
+
+      {{ partial "share.html" . }}
 
       {{/* Related articles */}}
       {{ $related := .Site.RegularPages.Related . | first 3 }}
