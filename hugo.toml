@@ -9,11 +9,10 @@ copyright = "Arun Kumar Venkitaraman"
 
 [params]
   author       = "Arun Kumar Venkitaraman"
-  description  = "An explorer's notebook — chasing intuition across code, mathematics, AI, and the examined life."
+  description  = "Exploring ideas beyond intuition."
   ogImage      = "/og-default.png"
-  githubURL    = "https://github.com/arunkumarvenkitaraman"
   linkedinURL  = "https://linkedin.com/in/arunkumarvenkitaraman"
-  email        = "hello@akscape.com"
+  email        = "arunkv.official@gmail.com"
   rssURL       = "/index.xml"
 
 [markup]
