@@ -11,9 +11,8 @@ copyright = "Arun Kumar Venkitaraman"
   author       = "Arun Kumar Venkitaraman"
   description  = "Exploring ideas beyond intuition."
   ogImage      = "/og-default.png"
-  linkedinURL  = "https://linkedin.com/in/arunkumarvenkitaraman"
+  linkedinURL  = "https://www.linkedin.com/in/arunkumar0509"
   email        = "arunkv.official@gmail.com"
-  rssURL       = "/index.xml"
 
 # A lastmod in front matter wins over the git commit date (useful for imported posts)
 [frontmatter]

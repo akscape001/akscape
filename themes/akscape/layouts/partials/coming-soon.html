@@ -6,11 +6,10 @@
   <h2 class="coming-soon-title">Something's growing here</h2>
   <p class="coming-soon-text">
     I'm still exploring {{ .Title | lower }} — the first notes are on their way.
-    Check back soon, or follow along so you don't miss them.
+    Check back soon.
   </p>
   <div class="coming-soon-actions">
-    {{ with .Site.Params.rssURL }}<a href="{{ . }}" class="btn btn-primary">Follow via RSS</a>{{ end }}
-    {{ with .Parent }}{{ if not .IsHome }}<a href="{{ .RelPermalink }}" class="btn">Back to {{ .Title }}</a>{{ end }}{{ end }}
+    {{ with .Parent }}{{ if not .IsHome }}<a href="{{ .RelPermalink }}" class="btn btn-primary">Back to {{ .Title }}</a>{{ end }}{{ end }}
   </div>
 
   {{ $recent := first 3 .Site.RegularPages }}
