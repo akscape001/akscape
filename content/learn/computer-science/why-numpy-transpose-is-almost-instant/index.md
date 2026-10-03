@@ -4,7 +4,6 @@ date: 2026-05-10T17:12:09Z
 lastmod: 2026-05-10T17:12:09Z
 description: "Transposing a 12 GB NumPy array takes no time at all. The reason is one of the coolest ideas in NumPy: strides."
 tags: ["python", "numpy", "arrays"]
-canonicalURL: "https://aklogs.hashnode.dev/why-numpy-transpose-is-almost-instant"
 ---
 
 Most operations on large NumPy arrays are computationally expensive, so I naturally assumed that transposing one would involve rearranging huge chunks of data in memory. But when I tried it and saw it happen almost instantly, I was surprised.

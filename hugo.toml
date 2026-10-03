@@ -1,4 +1,4 @@
-baseURL = "https://akscape.com/"
+baseURL = "https://www.akscape.com/"
 defaultContentLanguage = "en"
 title = "akscape"
 theme = "akscape"
@@ -13,6 +13,8 @@ copyright = "Arun Kumar Venkitaraman"
   ogImage      = "/og-default.png"
   linkedinURL  = "https://www.linkedin.com/in/arunkumar0509"
   email        = "arunkv.official@gmail.com"
+  # Cloudflare Web Analytics token (dashboard → Analytics & Logs → Web Analytics). Empty = off.
+  cloudflareAnalyticsToken = ""
 
 # A lastmod in front matter wins over the git commit date (useful for imported posts)
 [frontmatter]
@@ -47,3 +49,16 @@ copyright = "Arun Kumar Venkitaraman"
 [taxonomies]
   tag      = "tags"
   category = "categories"
+  series   = "series"
+
+# "Keep reading" matches posts on shared tags/series, newer or older
+[related]
+  includeNewer = true
+  threshold    = 1
+  toLower      = true
+  [[related.indices]]
+    name   = "series"
+    weight = 100
+  [[related.indices]]
+    name   = "tags"
+    weight = 80

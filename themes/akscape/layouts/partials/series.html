@@ -1,0 +1,20 @@
+{{/* "Part N of M" box for posts with `series: ["Name"]`. Context: a regular page. */}}
+{{ range .GetTerms "series" }}
+  {{ $parts := .Pages.ByDate }}
+  {{ if gt (len $parts) 1 }}
+  {{ $current := $.RelPermalink }}
+  {{ $n := 0 }}
+  {{ range $i, $p := $parts }}{{ if eq $p.RelPermalink $current }}{{ $n = add $i 1 }}{{ end }}{{ end }}
+  <nav class="series" aria-label="Series: {{ .LinkTitle }}">
+    <p class="series-head">
+      <span class="series-part">Part {{ $n }} of {{ len $parts }}</span>
+      <a href="{{ .RelPermalink }}" class="series-name">{{ .LinkTitle }}</a>
+    </p>
+    <ol class="series-list">
+      {{ range $parts }}
+      <li>{{ if eq .RelPermalink $current }}<span aria-current="page">{{ .Title }}</span>{{ else }}<a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ end }}</li>
+      {{ end }}
+    </ol>
+  </nav>
+  {{ end }}
+{{ end }}

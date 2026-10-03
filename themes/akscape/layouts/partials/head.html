@@ -41,6 +41,11 @@
 <meta name="twitter:image" content="{{ . }}">
 {{ end }}
 
+{{/* Cloudflare Web Analytics — cookie-free; production builds only, when a token is set */}}
+{{ with site.Params.cloudflareAnalyticsToken }}{{ if hugo.IsProduction }}
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "{{ . }}"}'></script>
+{{ end }}{{ end }}
+
 {{/* Structured data */}}
 {{ partial "schema.html" (dict "page" . "image" $og) }}
 

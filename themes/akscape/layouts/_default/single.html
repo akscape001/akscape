@@ -29,6 +29,8 @@
         </div>
       </header>
 
+      {{ partial "series.html" . }}
+
       {{/* Article body */}}
       <div class="article-body" data-pagefind-body>
         {{ .Content }}
@@ -49,18 +51,17 @@
 
       {{ partial "share.html" . }}
 
-      {{/* Related articles */}}
-      {{ $related := .Site.RegularPages.Related . | first 3 }}
-      {{ if $related }}
-      <aside class="related-articles" aria-label="Related articles">
-        <p class="related-title">Related</p>
-        <div class="related-grid">
-          {{ range $related }}
-          <a href="{{ .RelPermalink }}" class="related-card">
-            <p class="related-card-title">{{ .Title }}</p>
-            <p class="related-card-date">{{ .Date.Format "Jan 2, 2006" }}</p>
-          </a>
-          {{ end }}
+      {{/* Keep reading: related by tags/series → same section → latest site-wide */}}
+      {{ $more := slice }}
+      {{ range .Site.RegularPages.Related . }}{{ $more = $more | append . }}{{ end }}
+      {{ range (index (where .Site.Sections "Section" .Section) 0).RegularPagesRecursive }}{{ $more = $more | append . }}{{ end }}
+      {{ range .Site.RegularPages }}{{ $more = $more | append . }}{{ end }}
+      {{ $more = first 3 (where ($more | uniq) "RelPermalink" "ne" .RelPermalink) }}
+      {{ with $more }}
+      <aside class="keep-reading" aria-label="Keep reading">
+        <p class="section-title">Keep reading</p>
+        <div class="article-list">
+          {{ range . }}{{ partial "article-item.html" . }}{{ end }}
         </div>
       </aside>
       {{ end }}
