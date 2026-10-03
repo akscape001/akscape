@@ -34,6 +34,10 @@
         {{ .Content }}
       </div>
 
+      {{ with .Params.canonicalURL }}
+      <p class="original-source">Originally published on <a href="{{ . }}" rel="noopener">{{ (urls.Parse .).Host }}</a>.</p>
+      {{ end }}
+
       {{/* Tags */}}
       {{ with .Params.tags }}
       <div class="tag-list">
@@ -82,7 +86,7 @@
     </div>
 
     {{/* Sidebar: Table of Contents */}}
-    {{ if .TableOfContents }}
+    {{ if in .TableOfContents "<li" }}
     <aside class="toc-sidebar" aria-label="Table of contents">
       <p class="toc-title">Contents</p>
       {{ .TableOfContents }}

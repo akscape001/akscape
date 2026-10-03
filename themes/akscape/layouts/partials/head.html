@@ -42,7 +42,8 @@
 <meta name="twitter:description" content="{{ with .Description }}{{ . }}{{ else }}{{ with .Summary }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}{{ end }}">
 
 {{/* Canonical */}}
-<link rel="canonical" href="{{ .Permalink }}">
+{{/* canonicalURL: set when a post was first published elsewhere */}}
+<link rel="canonical" href="{{ .Params.canonicalURL | default .Permalink }}">
 
 {{/* RSS */}}
 {{ range .AlternativeOutputFormats }}

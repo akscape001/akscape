@@ -2,13 +2,13 @@
 title: "About"
 layout: "single"
 story: |
-  I'm Arun Kumar Venkitaraman  a software engineer with a deep curiosity for ideas at the intersection of technology, mathematics, and philosophy.
+  I'm Arun just another human with a deep curiosity for ideas at the intersection of technology, science and philosophy.
 
-  akscape is my personal knowledge space. I write to think clearly, to learn in public, and to build a record of the ideas that shape how I see the world.
+  akscape is my personal knowledge space. I sometimes write to think clearly and I intend to use this pace to share my thoughts and learn in public.
 
-  The name comes from *scape* — a view, a landscape — and the initial of my first name. It's a place to look out at the things I find interesting.
+  The name comes from *scape*, a landscape - a place to look out and record things I find interesting.
 now: |
-  Based in India. Currently focused on distributed systems, machine learning infrastructure, and reading widely across philosophy and mathematics.
-
-  I'm working on a series of articles on type theory and its connections to logic and category theory.
+  Based in India. Currently focused on distributed systems, ML & infrastructure, and reading widely across philosophy and mathematics.
+disclaimer: |
+  The views in this website are personal and don't represent anyone I'm affiliated with. The content is written to learn and share, not should not be considered as professional advice.
 ---
