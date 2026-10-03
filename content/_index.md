@@ -1,4 +1,4 @@
 ---
-title: "Akscape"
-description: "A personal knowledge space — computer science, mathematics, AI, philosophy, and the things that matter."
+title: "akscape"
+description: "A space for curious minds."
 ---

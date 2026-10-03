@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script>
+(function(){
+  var s = localStorage.getItem('theme');
+  var d = document.documentElement;
+  if (s === 'dark' || s === 'light') {
+    d.dataset.theme = s;
+  } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    d.dataset.theme = 'dark';
+  }
+})();
+</script>
+<title>Understanding Binary Trees · akscape</title>
+
+
+<meta name="description" content="A clear, ground-up explanation of binary trees — one of the most fundamental data structures in computer science.">
+<meta name="author" content="Arun Kumar Venkitaraman">
+
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="Understanding Binary Trees">
+<meta property="og:description" content="A clear, ground-up explanation of binary trees — one of the most fundamental data structures in computer science.">
+<meta property="og:url" content="http://localhost:1313/learn/computer-science/understanding-binary-trees/">
+<meta property="og:site_name" content="akscape">
+
+<meta property="article:published_time" content="2026-07-15T00:00:00Z">
+<meta property="article:modified_time" content="2026-07-19T21:02:45&#43;05:30">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Understanding Binary Trees">
+<meta name="twitter:description" content="A clear, ground-up explanation of binary trees — one of the most fundamental data structures in computer science.">
+
+
+<link rel="canonical" href="http://localhost:1313/learn/computer-science/understanding-binary-trees/">
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.min.5c576bdba68e2d726c9525b03eca894988e82d8e93bf036ae55449c3be271bb5.css" integrity="sha256-XFdr26aOLXJslSWwPsqJSYjoLY6TvwNq5VRJw74nG7U=">
+
+
+
+
+
+
+
+
+
+
+<link rel="icon" href="/favicon.ico" sizes="any">
+
+</head>
+<body>
+  <div class="site-wrapper">
+    <nav class="site-nav" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">akscape</a>
+
+    <ul class="nav-links" id="nav-links" role="list">
+      
+        
+          
+          
+          <li class="nav-item">
+            
+              <a href="/" class="nav-link active"
+                 aria-haspopup="true">Home</a>
+              <ul class="nav-dropdown" role="list">
+                
+                <li>
+                  <a href="/" aria-current="page">Home</a>
+                </li>
+                
+                <li>
+                  <a href="/learn/" aria-current="page">Explore</a>
+                </li>
+                
+                <li>
+                  <a href="/reviews/">Reviews</a>
+                </li>
+                
+                <li>
+                  <a href="/reflect/">Reflect</a>
+                </li>
+                
+                <li>
+                  <a href="/about/">About</a>
+                </li>
+                
+              </ul>
+            
+          </li>
+        
+      
+        
+          
+          
+          <li class="nav-item">
+            
+              <a href="/learn/" class="nav-link">Explore</a>
+            
+          </li>
+        
+      
+        
+          
+          
+          <li class="nav-item">
+            
+              <a href="/reviews/" class="nav-link">Reviews</a>
+            
+          </li>
+        
+      
+        
+          
+          
+          <li class="nav-item">
+            
+              <a href="/reflect/" class="nav-link">Reflect</a>
+            
+          </li>
+        
+      
+        
+          
+          
+          <li class="nav-item">
+            
+              <a href="/about/" class="nav-link">About</a>
+            
+          </li>
+        
+      
+    </ul>
+
+    <div class="nav-actions">
+      <a href="/search/" class="nav-btn" aria-label="Search">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+      </a>
+      <button class="nav-btn" id="theme-toggle" aria-label="Toggle dark mode" type="button">
+        <svg class="icon-sun" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M18.36 5.64l1.41-1.41"/>
+        </svg>
+        <svg class="icon-moon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true" style="display:none">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+      <button class="nav-btn nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links" type="button">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+    <main>
+      
+<article class="article-layout">
+  <div class="article-container">
+
+    
+    <div class="article-main">
+
+      
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <a href="/">akscape</a>
+        
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <a href="/learn/">Learn</a>
+        
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <a href="/learn/computer-science/">Computer Science</a>
+        
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span>Understanding Binary Trees</span>
+      </nav>
+
+      
+      <header class="article-header">
+        
+        <p class="article-section-label">Computer Science</p>
+        
+        <h1 class="article-title">Understanding Binary Trees</h1>
+        
+        <p class="article-description">A clear, ground-up explanation of binary trees — one of the most fundamental data structures in computer science.</p>
+        
+        <div class="article-meta">
+          <time datetime="2026-07-15">July 15, 2026</time>
+          <span class="meta-sep">·</span>
+          <span>2 min read</span>
+          
+          <span class="meta-sep">·</span>
+          <a href="/tags/algorithms/" class="tag">algorithms</a><a href="/tags/data-structures/" class="tag">data-structures</a>
+          
+        </div>
+      </header>
+
+      
+      <div class="article-body">
+        <p>A binary tree is one of the most fundamental data structures in computer science. Simple enough to explain in five minutes, yet rich enough to underpin databases, file systems, and compilers.</p>
+<h2 id="what-is-a-binary-tree">What is a Binary Tree?</h2>
+<p>A binary tree is a hierarchical data structure where every node has <strong>at most two children</strong>: conventionally called the <em>left</em> child and the <em>right</em> child.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">        (8)
+</span></span><span class="line"><span class="cl">       /   \
+</span></span><span class="line"><span class="cl">     (3)   (10)
+</span></span><span class="line"><span class="cl">     / \      \
+</span></span><span class="line"><span class="cl">   (1) (6)   (14)
+</span></span><span class="line"><span class="cl">       / \   /
+</span></span><span class="line"><span class="cl">     (4) (7)(13)
+</span></span></code></pre></div><p>Every node contains:</p>
+<ul>
+<li>A <strong>value</strong> (sometimes called the key)</li>
+<li>A reference to the <strong>left subtree</strong> (may be empty)</li>
+<li>A reference to the <strong>right subtree</strong> (may be empty)</li>
+</ul>
+<h2 id="implementing-a-binary-tree-in-python">Implementing a Binary Tree in Python</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Node</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">left</span>  <span class="o">=</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">BinaryTree</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="bp">self</span><span class="o">.</span><span class="n">_insert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">_insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="n">node</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">left</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">node</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="bp">self</span><span class="o">.</span><span class="n">_insert</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">right</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">node</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="bp">self</span><span class="o">.</span><span class="n">_insert</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+</span></span></code></pre></div><h2 id="traversal-orders">Traversal Orders</h2>
+<p>There are three classical ways to visit every node in a binary tree:</p>
+<h3 id="in-order-left--root--right">In-order (Left → Root → Right)</h3>
+<p>Produces values in <em>sorted ascending order</em> for a binary search tree.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">inorder</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">node</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">inorder</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">inorder</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+</span></span></code></pre></div><h3 id="pre-order-root--left--right">Pre-order (Root → Left → Right)</h3>
+<p>Useful for copying or serialising a tree.</p>
+<h3 id="post-order-left--right--root">Post-order (Left → Right → Root)</h3>
+<p>Useful for deleting a tree or evaluating expression trees.</p>
+<h2 id="time-complexity">Time Complexity</h2>
+<table>
+	<thead>
+			<tr>
+					<th>Operation</th>
+					<th>Average</th>
+					<th>Worst Case</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Search</td>
+					<td>O(log n)</td>
+					<td>O(n)</td>
+			</tr>
+			<tr>
+					<td>Insert</td>
+					<td>O(log n)</td>
+					<td>O(n)</td>
+			</tr>
+			<tr>
+					<td>Delete</td>
+					<td>O(log n)</td>
+					<td>O(n)</td>
+			</tr>
+	</tbody>
+</table>
+<p>The worst case O(n) occurs when the tree degenerates into a linked list — for example, inserting values in sorted order into an unbalanced tree.</p>
+<h2 id="why-it-matters">Why It Matters</h2>
+<p>Binary trees are not merely an academic exercise. They underpin:</p>
+<ul>
+<li><strong>Databases</strong> — B-trees and B+-trees (generalised binary trees) are the storage engine of virtually every SQL database</li>
+<li><strong>Compilers</strong> — Abstract syntax trees (ASTs) are trees that represent program structure</li>
+<li><strong>File systems</strong> — Directory structures are trees</li>
+</ul>
+<p>Understanding binary trees is the first step towards understanding balanced trees (AVL trees, Red-Black trees), heaps, tries, and the broader zoo of tree-based data structures.</p>
+
+      </div>
+
+      
+      
+      <div class="tag-list">
+        
+        <a href="/tags/algorithms/" class="tag">algorithms</a>
+        
+        <a href="/tags/data-structures/" class="tag">data-structures</a>
+        
+      </div>
+      
+
+      
+      
+      
+
+      
+      
+
+    </div>
+
+    
+    
+    <aside class="toc-sidebar" aria-label="Table of contents">
+      <p class="toc-title">Contents</p>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#what-is-a-binary-tree">What is a Binary Tree?</a></li>
+    <li><a href="#implementing-a-binary-tree-in-python">Implementing a Binary Tree in Python</a></li>
+    <li><a href="#traversal-orders">Traversal Orders</a>
+      <ul>
+        <li><a href="#in-order-left--root--right">In-order (Left → Root → Right)</a></li>
+        <li><a href="#pre-order-root--left--right">Pre-order (Root → Left → Right)</a></li>
+        <li><a href="#post-order-left--right--root">Post-order (Left → Right → Root)</a></li>
+      </ul>
+    </li>
+    <li><a href="#time-complexity">Time Complexity</a></li>
+    <li><a href="#why-it-matters">Why It Matters</a></li>
+  </ul>
+</nav>
+    </aside>
+    
+
+  </div>
+</article>
+
+    </main>
+    <footer class="site-footer">
+  <div class="footer-inner">
+    <p class="footer-copy">
+      © 2026 Arun Kumar Venkitaraman
+    </p>
+    <div class="footer-links">
+      
+      <a href="https://github.com/arunkumarvenkitaraman" class="footer-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/>
+        </svg>
+      </a>
+      
+      
+      <a href="https://linkedin.com/in/arunkumarvenkitaraman" class="footer-link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+        </svg>
+      </a>
+      
+      
+      <a href="mailto:hello@akscape.com" class="footer-link" aria-label="Email">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+          <rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+        </svg>
+      </a>
+      
+      
+      <a href="/index.xml" class="footer-link" aria-label="RSS Feed">
+        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19.01 7.38 20 6.18 20C4.98 20 4 19.01 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1z"/>
+        </svg>
+      </a>
+      
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <script>
+(function () {
+  var html = document.documentElement;
+  var btn = document.getElementById('theme-toggle');
+  var sunIcon = btn && btn.querySelector('.icon-sun');
+  var moonIcon = btn && btn.querySelector('.icon-moon');
+
+  function updateIcons() {
+    var dark = html.dataset.theme === 'dark';
+    if (sunIcon) sunIcon.style.display = dark ? 'none' : '';
+    if (moonIcon) moonIcon.style.display = dark ? '' : 'none';
+  }
+
+   
+  updateIcons();
+
+   
+  if (btn) {
+    btn.addEventListener('click', function () {
+      var nowDark = html.dataset.theme === 'dark';
+      var next = nowDark ? 'light' : 'dark';
+      html.dataset.theme = next;
+      localStorage.setItem('theme', next);
+      updateIcons();
+    });
+  }
+
+   
+  var hamburger = document.getElementById('nav-hamburger');
+  var navLinks = document.getElementById('nav-links');
+  if (hamburger && navLinks) {
+    hamburger.addEventListener('click', function () {
+      var open = navLinks.classList.toggle('is-open');
+      hamburger.setAttribute('aria-expanded', String(open));
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
