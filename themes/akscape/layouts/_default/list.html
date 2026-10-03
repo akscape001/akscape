@@ -3,39 +3,56 @@
   <div class="container">
 
     <header class="section-page-header">
+      {{ with .Parent }}{{ if not .IsHome }}
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="{{ .RelPermalink }}">← {{ .Title }}</a>
+      </nav>
+      {{ end }}{{ end }}
       <h1 class="section-page-title">{{ .Title }}</h1>
       {{ with .Description }}<p class="section-page-desc">{{ . }}</p>{{ end }}
-      {{ with .Content }}<div class="about-body" style="margin-top:1.5rem">{{ . }}</div>{{ end }}
+      {{ with .Content }}<div class="about-body section-page-content">{{ . }}</div>{{ end }}
     </header>
 
-    {{/* Show subsections if this is a top-level section */}}
-    {{ if .Sections }}
-    <div class="subsections">
-      {{ range .Sections }}
-      <a href="{{ .RelPermalink }}" class="subsection-card">
-        <p class="subsection-card-name">{{ .Title }}</p>
-        <p class="subsection-card-count">{{ len .RegularPages }} {{ if eq (len .RegularPages) 1 }}article{{ else }}articles{{ end }}</p>
-      </a>
-      {{ end }}
-    </div>
-    {{ end }}
+    {{ if eq .Kind "taxonomy" }}
+      {{/* e.g. /tags/ — list every term with its count */}}
+      <ul class="topic-chips" role="list">
+        {{ range .Data.Terms.ByCount }}
+        <li><a href="{{ .Page.RelPermalink }}" class="topic-chip">{{ .Page.Title }}<span class="topic-chip-count">{{ .Count }}</span></a></li>
+        {{ end }}
+      </ul>
+    {{ else }}
 
-    {{/* Article list */}}
-    {{ if .RegularPages }}
-    <div class="article-list">
-      {{ range .Paginator.Pages }}
-      <a href="{{ .RelPermalink }}" class="article-list-item">
-        <div>
-          <p class="article-list-title">{{ .Title }}</p>
-          {{ with .Description }}<p class="article-list-desc">{{ . }}</p>{{ end }}
+      {{/* Subsection cards, counted recursively */}}
+      {{ with .Sections }}
+      <div class="subsections">
+        {{ range . }}
+        {{ $n := len .RegularPagesRecursive }}
+        <a href="{{ .RelPermalink }}" class="subsection-card{{ if eq $n 0 }} is-empty{{ end }}">
+          <p class="subsection-card-name">{{ .Title }}</p>
+          {{ with .Description }}<p class="subsection-card-desc">{{ . }}</p>{{ end }}
+          <p class="subsection-card-count">
+            {{ if eq $n 0 }}<span class="badge-soon">Coming soon</span>
+            {{ else }}{{ $n }} {{ if eq $n 1 }}article{{ else }}articles{{ end }}{{ end }}
+          </p>
+        </a>
+        {{ end }}
+      </div>
+      {{ end }}
+
+      {{ $pages := cond .IsSection .RegularPagesRecursive .Pages }}
+      {{ if $pages }}
+        {{ if .Sections }}
+        <div class="section-header"><span class="section-title">Latest in {{ .Title }}</span></div>
+        {{ end }}
+        {{ $paginator := .Paginate $pages }}
+        <div class="article-list">
+          {{ range $paginator.Pages }}{{ partial "article-item.html" . }}{{ end }}
         </div>
-        <span class="article-list-date">{{ .Date.Format "Jan 2, 2006" }}</span>
-      </a>
+        {{ template "pagination" . }}
+      {{ else }}
+        {{ partial "coming-soon.html" . }}
       {{ end }}
-    </div>
 
-    {{/* Pagination */}}
-    {{ template "pagination" . }}
     {{ end }}
 
   </div>

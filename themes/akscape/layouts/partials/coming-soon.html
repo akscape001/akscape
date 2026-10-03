@@ -1,0 +1,25 @@
+{{/* Friendly empty state for sections that have no articles yet. Context: the section page. */}}
+<div class="coming-soon">
+  <svg class="coming-soon-icon" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M12 22v-9"/><path d="M12 13c0-4 3-7 8-7 0 4-3 7-8 7z"/><path d="M12 15c0-3.5-2.5-6-7-6 0 3.5 2.5 6 7 6z"/>
+  </svg>
+  <h2 class="coming-soon-title">Something's growing here</h2>
+  <p class="coming-soon-text">
+    I'm still exploring {{ .Title | lower }} — the first notes are on their way.
+    Check back soon, or follow along so you don't miss them.
+  </p>
+  <div class="coming-soon-actions">
+    {{ with .Site.Params.rssURL }}<a href="{{ . }}" class="btn btn-primary">Follow via RSS</a>{{ end }}
+    {{ with .Parent }}{{ if not .IsHome }}<a href="{{ .RelPermalink }}" class="btn">Back to {{ .Title }}</a>{{ end }}{{ end }}
+  </div>
+
+  {{ $recent := first 3 .Site.RegularPages }}
+  {{ with $recent }}
+  <div class="coming-soon-meanwhile">
+    <p class="section-title">Meanwhile, you might enjoy</p>
+    <div class="article-list">
+      {{ range . }}{{ partial "article-item.html" . }}{{ end }}
+    </div>
+  </div>
+  {{ end }}
+</div>

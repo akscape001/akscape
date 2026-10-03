@@ -1,0 +1,12 @@
+{{/* One row in an article list. Context: a regular page. */}}
+<a href="{{ .RelPermalink }}" class="article-list-item">
+  <div class="article-list-main">
+    <p class="article-list-kicker">
+      {{ with .Parent }}<span>{{ .Title }}</span><span class="meta-sep">·</span>{{ end }}
+      <span>{{ .ReadingTime }} min</span>
+    </p>
+    <p class="article-list-title">{{ .Title }}</p>
+    {{ with .Description }}<p class="article-list-desc">{{ . }}</p>{{ end }}
+  </div>
+  <time class="article-list-date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
+</a>

@@ -5,8 +5,7 @@
     <ul class="nav-links" id="nav-links" role="list">
       {{ range .Site.Menus.main }}
         {{ if not .Parent }}
-          {{/* Collect child menu items for this top-level item */}}
-          {{ $children := where $.Site.Menus.main "Parent" .Identifier }}
+          {{ $children := .Children }}
           <li class="nav-item">
             {{ if $children }}
               <a href="{{ .URL }}" class="nav-link{{ if or (eq $.RelPermalink .URL) (hasPrefix $.RelPermalink .URL) }} active{{ end }}"
@@ -19,7 +18,7 @@
                 {{ end }}
               </ul>
             {{ else }}
-              <a href="{{ .URL }}" class="nav-link{{ if eq $.RelPermalink .URL }} active{{ end }}">{{ .Name }}</a>
+              <a href="{{ .URL }}" class="nav-link{{ if eq $.RelPermalink .URL }} active{{ end }}"{{ if eq $.RelPermalink .URL }} aria-current="page"{{ end }}>{{ .Name }}</a>
             {{ end }}
           </li>
         {{ end }}

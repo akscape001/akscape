@@ -20,7 +20,7 @@
       var nowDark = html.dataset.theme === 'dark';
       var next = nowDark ? 'light' : 'dark';
       html.dataset.theme = next;
-      localStorage.setItem('theme', next);
+      try { localStorage.setItem('theme', next); } catch (e) {}
       updateIcons();
     });
   }
@@ -28,11 +28,83 @@
   /* Mobile hamburger */
   var hamburger = document.getElementById('nav-hamburger');
   var navLinks = document.getElementById('nav-links');
+  function setMenu(open) {
+    navLinks.classList.toggle('is-open', open);
+    hamburger.setAttribute('aria-expanded', String(open));
+    document.body.classList.toggle('menu-open', open);
+  }
   if (hamburger && navLinks) {
     hamburger.addEventListener('click', function () {
-      var open = navLinks.classList.toggle('is-open');
-      hamburger.setAttribute('aria-expanded', String(open));
+      setMenu(!navLinks.classList.contains('is-open'));
+    });
+    navLinks.addEventListener('click', function (e) {
+      if (e.target.closest('a')) setMenu(false);
     });
   }
+
+  /* Keyboard: "/" opens search, Esc closes the mobile menu */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && navLinks && navLinks.classList.contains('is-open')) setMenu(false);
+    if (e.key !== '/' || e.metaKey || e.ctrlKey || e.altKey) return;
+    var t = e.target;
+    if (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return;
+    var input = document.querySelector('.pagefind-ui__search-input');
+    e.preventDefault();
+    if (input) input.focus(); else window.location.href = '/search/';
+  });
+
+  /* Article: reading progress + table-of-contents scroll-spy */
+  var bar = document.getElementById('reading-progress-bar');
+  var body = document.querySelector('.article-body');
+  if (bar && body) {
+    var onScroll = function () {
+      var rect = body.getBoundingClientRect();
+      var total = rect.height - window.innerHeight;
+      var p = total > 0 ? Math.min(1, Math.max(0, -rect.top / total)) : 1;
+      bar.style.transform = 'scaleX(' + p + ')';
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  var tocLinks = document.querySelectorAll('.toc-sidebar a[href^="#"]');
+  if (tocLinks.length && 'IntersectionObserver' in window) {
+    var byId = {};
+    tocLinks.forEach(function (a) { byId[decodeURIComponent(a.hash.slice(1))] = a; });
+    var current;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var link = byId[en.target.id];
+        if (!link) return;
+        if (current) current.classList.remove('is-active');
+        link.classList.add('is-active');
+        current = link;
+      });
+    }, { rootMargin: '0px 0px -70% 0px' });
+    Object.keys(byId).forEach(function (id) {
+      var h = document.getElementById(id);
+      if (h) io.observe(h);
+    });
+  }
+
+  /* Copy button on code blocks */
+  document.querySelectorAll('.article-body pre').forEach(function (pre) {
+    if (!navigator.clipboard) return;
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'code-copy';
+    b.textContent = 'Copy';
+    b.addEventListener('click', function () {
+      var code = pre.querySelector('code') || pre;
+      navigator.clipboard.writeText(code.innerText).then(function () {
+        b.textContent = 'Copied';
+        setTimeout(function () { b.textContent = 'Copy'; }, 1500);
+      });
+    });
+    var wrap = pre.closest('.highlight') || pre;
+    wrap.classList.add('has-copy');
+    wrap.appendChild(b);
+  });
 })();
 </script>

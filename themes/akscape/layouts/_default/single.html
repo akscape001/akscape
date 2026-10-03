@@ -1,26 +1,19 @@
 {{ define "main" }}
+<div class="reading-progress" aria-hidden="true"><span id="reading-progress-bar"></span></div>
 <article class="article-layout">
   <div class="article-container">
 
     {{/* Main content column */}}
     <div class="article-main">
 
-      {{/* Breadcrumb */}}
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="/">Home</a>
-        {{ range .Ancestors.Reverse }}
-        <span class="breadcrumb-sep" aria-hidden="true">/</span>
-        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-        {{ end }}
-        <span class="breadcrumb-sep" aria-hidden="true">/</span>
-        <span>{{ .Title }}</span>
-      </nav>
-
-      {{/* Article header */}}
+      {{/* Article header — breadcrumb doubles as the section kicker */}}
       <header class="article-header">
-        {{ with .Parent }}
-        <p class="article-section-label">{{ .Title }}</p>
-        {{ end }}
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          {{ range $i, $a := where .Ancestors.Reverse "IsHome" false }}
+          {{ if $i }}<span class="breadcrumb-sep" aria-hidden="true">/</span>{{ end }}
+          <a href="{{ $a.RelPermalink }}">{{ $a.Title }}</a>
+          {{ end }}
+        </nav>
         <h1 class="article-title">{{ .Title }}</h1>
         {{ with .Description }}
         <p class="article-description">{{ . }}</p>
@@ -29,9 +22,9 @@
           <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
           <span class="meta-sep">·</span>
           <span>{{ .ReadingTime }} min read</span>
-          {{ with .Params.tags }}
+          {{ if gt (.Lastmod.Sub .Date).Hours 72 }}
           <span class="meta-sep">·</span>
-          {{ range . }}<a href="/tags/{{ . | urlize }}/" class="tag">{{ . }}</a>{{ end }}
+          <span>Updated {{ .Lastmod.Format "Jan 2, 2006" }}</span>
           {{ end }}
         </div>
       </header>

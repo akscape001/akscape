@@ -9,7 +9,8 @@ copyright = "Arun Kumar Venkitaraman"
 
 [params]
   author       = "Arun Kumar Venkitaraman"
-  description  = "A knowledge website covering computer science, mathematics, AI, philosophy and more."
+  description  = "An explorer's notebook — chasing intuition across code, mathematics, AI, and the examined life."
+  ogImage      = "/og-default.png"
   githubURL    = "https://github.com/arunkumarvenkitaraman"
   linkedinURL  = "https://linkedin.com/in/arunkumarvenkitaraman"
   email        = "hello@akscape.com"
@@ -19,6 +20,12 @@ copyright = "Arun Kumar Venkitaraman"
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+    # Leave LaTeX untouched by Markdown so KaTeX sees it verbatim
+    [markup.goldmark.extensions.passthrough]
+      enable = true
+      [markup.goldmark.extensions.passthrough.delimiters]
+        block  = [['\[', '\]'], ['$$', '$$']]
+        inline = [['\(', '\)'], ['$', '$']]
   [markup.highlight]
     style          = "github"
     lineNos        = false
