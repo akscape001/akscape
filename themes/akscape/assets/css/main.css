@@ -1634,8 +1634,6 @@ kbd {
 .has-copy:hover .code-copy,
 .code-copy:focus-visible { opacity: 1; }
 
-.footer-tagline { color: var(--color-text-faint); }
-
 /* Keyboard focus — visible everywhere, never on mouse click */
 :focus-visible {
   outline: 2px solid var(--color-highlight);
@@ -1706,7 +1704,6 @@ kbd {
   .nav-link[aria-haspopup="true"]::after { display: none; }
   .nav-links.is-open { background-color: var(--color-bg); }
   body.menu-open { overflow: hidden; }
-  .footer-tagline { display: none; }
 
   /* Home */
   .home-header { padding: var(--space-8) 0 var(--space-6); }
