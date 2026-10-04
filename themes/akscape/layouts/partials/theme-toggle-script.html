@@ -41,27 +41,58 @@
     });
   }
 
-  /* Mobile hamburger */
+  /* Mobile nav sheet */
   var hamburger = document.getElementById('nav-hamburger');
-  var navLinks = document.getElementById('nav-links');
-  function setMenu(open) {
+  var navLinks  = document.getElementById('nav-links');
+  var navInner  = navLinks ? navLinks.closest('.nav-inner') : null;
+  var mobile    = window.matchMedia('(max-width: 768px)');
+
+  function menuIsOpen() { return !!navLinks && navLinks.classList.contains('is-open'); }
+
+  function setMenu(open, returnFocus) {
+    if (!navLinks || !hamburger) return;
     navLinks.classList.toggle('is-open', open);
     hamburger.setAttribute('aria-expanded', String(open));
+    /* .menu-open on <html> drives the scroll lock, on <body> drives the scrim */
+    html.classList.toggle('menu-open', open);
     document.body.classList.toggle('menu-open', open);
-  }
-  if (hamburger && navLinks) {
-    hamburger.addEventListener('click', function () {
-      setMenu(!navLinks.classList.contains('is-open'));
-    });
-    navLinks.addEventListener('click', function (e) {
-      if (e.target.closest('a')) setMenu(false);
-    });
+    if (!open && returnFocus) hamburger.focus();
   }
 
-  /* Esc closes the mobile menu */
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && navLinks && navLinks.classList.contains('is-open')) setMenu(false);
-  });
+  if (hamburger && navLinks) {
+    hamburger.addEventListener('click', function () { setMenu(!menuIsOpen(), true); });
+
+    /* A link inside the sheet navigates — close, but leave focus to the new page */
+    navLinks.addEventListener('click', function (e) {
+      if (e.target.closest('a')) setMenu(false, false);
+    });
+
+    /* Tap off the bar closes, and that tap is swallowed so it cannot activate the
+       link beneath. Capture phase. The dialog guard keeps ⌘K search usable. */
+    document.addEventListener('click', function (e) {
+      if (!menuIsOpen() || document.querySelector('dialog[open]')) return;
+      if (navInner && navInner.contains(e.target)) return;
+      e.preventDefault();
+      e.stopPropagation();
+      setMenu(false, false);
+    }, true);
+
+    document.addEventListener('keydown', function (e) {
+      if (!menuIsOpen() || document.querySelector('dialog[open]')) return;
+      if (e.key === 'Escape') { setMenu(false, true); return; }
+      if (e.key !== 'Tab' || !navInner) return;
+      /* Focus trap over bar + sheet; the hamburger lives outside the <ul> */
+      var items = navInner.querySelectorAll('a[href], button:not([disabled])');
+      if (!items.length) return;
+      var first = items[0], last = items[items.length - 1];
+      if (!navInner.contains(document.activeElement)) { e.preventDefault(); first.focus(); }
+      else if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+
+    /* Crossing to desktop closes the menu and clears every class */
+    mobile.addEventListener('change', function (e) { if (!e.matches) setMenu(false, false); });
+  }
 
   /* Article: reading progress + table-of-contents scroll-spy */
   var bar = document.getElementById('reading-progress-bar');
