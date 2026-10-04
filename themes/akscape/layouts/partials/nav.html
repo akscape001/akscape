@@ -1,6 +1,6 @@
 <nav class="site-nav" aria-label="Main navigation">
   <div class="nav-inner">
-    <a href="/" class="nav-logo">{{ .Site.Title }}</a>
+    <a href="/" class="nav-logo">{{ partial "mark.html" (dict "size" 24) }}<span>{{ .Site.Title }}</span></a>
 
     <ul class="nav-links" id="nav-links" role="list">
       {{/* Built from content: only sections that have posts appear */}}

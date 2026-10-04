@@ -1,0 +1,18 @@
+{{- /*
+  The akscape mark. Two ridges and a sun: the rounded hill is the bowl of an
+  "a", the angular peak the vertex of a "k".
+
+  Strokes take currentColor so the mark follows the text colour in both
+  themes; only the sun is pinned, to --color-highlight.
+
+  Usage: {{ partial "mark.html" (dict "size" 24) }}
+*/ -}}
+{{- $size := .size | default 24 -}}
+<svg class="mark" width="{{ $size }}" height="{{ $size }}" viewBox="0 0 64 64"
+     aria-hidden="true" focusable="false">
+  <circle cx="51" cy="17" r="7.5" fill="var(--color-highlight)"/>
+  <path d="M5 50 Q17 27 28 50" fill="none" stroke="currentColor"
+        stroke-width="7" stroke-linecap="round"/>
+  <path d="M30 50 L44 24 L59 50" fill="none" stroke="currentColor"
+        stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

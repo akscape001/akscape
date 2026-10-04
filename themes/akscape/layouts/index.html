@@ -1,7 +1,7 @@
 {{ define "main" }}
 <div class="page page-home">
   <header class="home-header">
-    <h1 class="home-site-title">{{ .Site.Title }}</h1>
+    <h1 class="home-site-title">{{ partial "mark.html" (dict "size" 56) }}<span>{{ .Site.Title }}</span></h1>
     <p class="home-intro">{{ .Site.Params.description }}</p>
     {{ with .Content }}<div class="home-hello">{{ . }}</div>{{ end }}
   </header>

@@ -221,6 +221,9 @@ main { flex: 1; }
 }
 
 .nav-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
   font-family: var(--font-sans);
   font-size: var(--text-base);
   font-weight: 600;
@@ -229,6 +232,10 @@ main { flex: 1; }
   text-decoration: none;
   flex-shrink: 0;
 }
+
+/* The mark's ink fills ~69% of its box, which sets it a little above the
+   wordmark's cap height — intended, and why it is not nudged optically. */
+.nav-logo .mark { display: block; flex-shrink: 0; }
 
 .nav-logo:hover { color: var(--color-text-muted); }
 
@@ -374,6 +381,9 @@ main { flex: 1; }
 .home-header { margin-bottom: var(--space-8); }
 
 .home-site-title {
+  display: flex;
+  align-items: center;
+  gap: 0.26em;
   font-family: var(--font-sans);
   font-size: clamp(var(--text-4xl), 7vw, 3.75rem);
   font-weight: 600;
@@ -381,6 +391,17 @@ main { flex: 1; }
   line-height: 1;
   color: var(--color-text);
   margin-bottom: var(--space-4);
+}
+
+/* Sized in em so the mark tracks the title through its clamp. The mark's ink
+   fills ~69% of its box, so 1.12em lands it just above the wordmark's cap
+   height, and the negative inset pulls the hill's round cap back into line
+   with the flat left stem of the "a". */
+.home-site-title .mark {
+  width: 1.12em;
+  height: 1.12em;
+  flex: none;
+  margin-left: -0.06em;
 }
 
 .home-intro {
