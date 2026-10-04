@@ -1,9 +1,15 @@
 {{- /*
   Returns an absolute URL for the page's social-share image.
   Order: front-matter `image` → generated title card (articles) → site default.
-  The title card is drawn at build time with Geist: text goes on a transparent
+  The title card is drawn at build time with Inter: text goes on a transparent
   canvas 96px narrower than the base (so long titles wrap with a right margin),
   then is overlaid on assets/og/base.png.
+
+  The y values are font-specific. Hugo takes the line height from the font's
+  ascent alone (fontHeight = ceil(size * ascent)), so baselines move if the
+  face changes. Inter's ascent is 0.96875em against Geist's 1.005em; size 66
+  holds Inter's cap height at 48.0px, matching Geist at 68 (48.3px), and the
+  y/linespacing values below keep both baselines on their original rows.
 */ -}}
 {{- $url := "" -}}
 {{- with .Params.image -}}
@@ -11,13 +17,13 @@
 {{- else -}}
   {{- if .IsPage -}}
     {{- $base := resources.Get "og/base.png" -}}
-    {{- $semi := resources.Get "fonts/Geist-SemiBold.ttf" -}}
-    {{- $reg := resources.Get "fonts/Geist-Regular.ttf" -}}
+    {{- $semi := resources.Get "fonts/Inter-SemiBold.ttf" -}}
+    {{- $reg := resources.Get "fonts/Inter-Regular.ttf" -}}
     {{- $filters := slice -}}
     {{- with .Parent -}}
-      {{- $filters = $filters | append (images.Text (upper .LinkTitle) (dict "color" "#e8946a" "font" $reg "size" 26 "x" 96 "y" 214)) -}}
+      {{- $filters = $filters | append (images.Text (upper .LinkTitle) (dict "color" "#e8946a" "font" $reg "size" 26 "x" 96 "y" 215)) -}}
     {{- end -}}
-    {{- $filters = $filters | append (images.Text .Title (dict "color" "#ededea" "font" $semi "size" 68 "linespacing" 10 "x" 96 "y" 262)) -}}
+    {{- $filters = $filters | append (images.Text .Title (dict "color" "#ededea" "font" $semi "size" 66 "linespacing" 15 "x" 96 "y" 267)) -}}
     {{- $text := resources.Get "og/text-canvas.png" | images.Filter $filters -}}
     {{- $img := $base | images.Filter (images.Overlay $text 0 0) -}}
     {{- $url = $img.Permalink -}}
