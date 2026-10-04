@@ -11,10 +11,11 @@ copyright = "Arun Kumar Venkitaraman"
   author       = "Arun Kumar Venkitaraman"
   description  = "Exploring ideas beyond intuition."
   ogImage      = "/og-default.png"
+  githubURL    = "https://github.com/akscape001"
   linkedinURL  = "https://www.linkedin.com/in/arunkumar0509"
   email        = "arunkv.official@gmail.com"
   # Cloudflare Web Analytics token (dashboard → Analytics & Logs → Web Analytics). Empty = off.
-  cloudflareAnalyticsToken = ""
+  cloudflareAnalyticsToken = "33f4698a6df64b97b38a8d5a126bf8f3"
 
   # How lists adapt as the site grows (home, section hubs, archive)
   [params.listing]
