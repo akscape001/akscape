@@ -1,6 +1,8 @@
 <nav class="site-nav" aria-label="Main navigation">
   <div class="nav-inner">
-    <a href="/" class="nav-logo">{{ partial "mark.html" (dict "size" 24) }}<span>{{ .Site.Title }}</span></a>
+    {{/* Mark only — the name is carried by the home page and the tab title.
+         The span keeps the link's accessible name, since the SVG is hidden. */}}
+    <a href="/" class="nav-logo">{{ partial "mark.html" (dict "size" 26) }}<span class="sr-only">{{ .Site.Title }}</span></a>
 
     <ul class="nav-links" id="nav-links" role="list">
       {{/* Built from content: only sections that have posts appear */}}

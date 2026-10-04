@@ -223,18 +223,14 @@ main { flex: 1; }
 .nav-logo {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-2);
-  font-family: var(--font-sans);
-  font-size: var(--text-base);
-  font-weight: 600;
-  letter-spacing: -0.02em;
   color: var(--color-text);
   text-decoration: none;
   flex-shrink: 0;
+  /* Widens the tap target past the mark's own 26px without moving its left
+     edge, which the mobile sheet's rows align to. */
+  padding: var(--space-2) var(--space-2) var(--space-2) 0;
 }
 
-/* The mark's ink fills ~69% of its box, which sets it a little above the
-   wordmark's cap height — intended, and why it is not nudged optically. */
 .nav-logo .mark { display: block; flex-shrink: 0; }
 
 .nav-logo:hover { color: var(--color-text-muted); }
