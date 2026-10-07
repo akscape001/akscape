@@ -52,7 +52,7 @@ This is **the problem of time**, and it has been open for several years.
 
 One way out is to stop treating time as a basic ingredient and start treating it as something that emerges, the way temperature emerges from molecules bouncing around.
 
-Page and Wootters proposed in 1983 that a frozen universe can still contain time *internally*: entangle a small clock system with the rest, and from inside, everything looks like it's evolving normally. Nobody knows if any of this is right. But notice what it implies: time might not be a thing the universe has. It might be a thing that shows up when you're inside.
+Page and Wootters proposed in 1983 that a frozen universe can still contain time *internally*. Entangle a small clock system with the rest, and from inside, everything looks like it's evolving normally. Nobody knows if any of this is right. But notice what it implies, time might not be a thing the universe has. It might be a thing that shows up when you're inside.
 
 We don't even know whether time is continuous. Below the Planck time, about 10⁻⁴⁴ seconds, our theories stop returning sensible answers. Some approaches to quantum gravity suggest time comes in discrete grains. We have no way to check.
 
