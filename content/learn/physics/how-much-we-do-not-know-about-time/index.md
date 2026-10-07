@@ -32,7 +32,7 @@ Which leaves a strange gap. The universe has no now. I live in nothing else.
 
 Here's the one thing that bothers me most.
 
-Write down the fundamental laws of physics, and almost all of them work the same forward and backward. Newton's laws, Maxwell's equations, general relativity, the Schrödinger equation. You can watch a movie and play it back in reverse and nothing illegal happens.
+Write down the fundamental laws of physics, and almost all of them work the same forward and backward. Newton's laws, Maxwell's equations, general relativity, the Schrodinger equation. You can watch a movie and play it back in reverse and nothing illegal happens.
 
 Yet nothing in life is reversible. Cups shatter, coffee cools, people age. Where does that come from?
 
