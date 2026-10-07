@@ -66,10 +66,10 @@ There is also no convincing answer to why we remember the past and not the futur
 
 ## So, how much don't we know?
 
-Lining it up, we don't know whether time is fundamental or emergent, why it has a direction, what fixed the initial conditions resulted in one, how to reconcile the two ways our best theories handle it, whether it's continuous or grainy, or why there's a present moment at all.
+Lining it up, we don't know whether time is fundamental or emergent, why it has a direction, what fixed the initial conditions resulted in one, how to reconcile the two ways our best theories handle it, whether it's continuous or discrete, or why there's a present moment at all.
 
 What we do know is how to count it, very very well.
 
-That ratio is the thing I keep coming back to. Time is the one quantity we organise every single day around, build every plan on, and measure more precisely than anything else in existence But, it’s also among the least understood things in physics and life. We are all expert users of something nobody can define.
+This is the thing I keep coming back to. Time is the one quantity we organise every single day around, build every plan on, and measure more precisely than anything else in existence But, it’s also among the least understood things in physics and life. We are all expert users of something nobody can define.
 
 *Does any of this change how you think about time, or is it one of those things that's better left unexamined when the alarm goes off tomorrow?*
