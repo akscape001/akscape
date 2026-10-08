@@ -1,11 +1,8 @@
-{{/* Follow new posts — email form when params.subscribe.buttondown is set, link to /follow/ always */}}
-{{- $follow := site.GetPage "/follow" -}}
+{{/* Email signup at the end of posts — shown when params.subscribe.buttondown is set */}}
+{{ with site.Params.subscribe.buttondown }}
 <aside class="subscribe" aria-label="Follow new posts">
-  {{ with site.Params.subscribe.buttondown }}
   <p class="subscribe-title">Get new posts by email</p>
   {{ partial "subscribe-form.html" . }}
-  <p class="subscribe-note">No spam. Unsubscribe anytime.{{ with $follow }} Or <a href="{{ .RelPermalink }}">follow via RSS</a>.{{ end }}</p>
-  {{ else }}
-  {{ with $follow }}<p class="subscribe-note"><a href="{{ .RelPermalink }}">Follow new posts</a> in your feed reader.</p>{{ end }}
-  {{ end }}
+  <p class="subscribe-note">No spam. Unsubscribe anytime.</p>
 </aside>
+{{ end }}

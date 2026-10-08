@@ -187,18 +187,6 @@
     });
   });
 
-  /* Copy buttons: data-copy holds the text */
-  document.querySelectorAll('.copy-text').forEach(function (b) {
-    var label = b.querySelector('.copy-text-label');
-    b.addEventListener('click', function () {
-      if (!navigator.clipboard) return;
-      navigator.clipboard.writeText(b.dataset.copy).then(function () {
-        label.textContent = 'Copied!';
-        setTimeout(function () { label.textContent = 'Copy'; }, 1500);
-      });
-    });
-  });
-
   /* Topic filter: chips filter the post list in place; #topic=<tag> makes it shareable */
   var filter = document.querySelector('.topic-filter');
   var list = document.querySelector('.post-list');
