@@ -1,0 +1,39 @@
+{{ define "main" }}
+{{- $feed := site.Home.OutputFormats.Get "rss" -}}
+<div class="page follow-page">
+  <h1 class="about-title">{{ .Title }}</h1>
+
+  {{ with site.Params.subscribe.buttondown }}
+  <section class="about-section">
+    <p class="about-section-title">By email</p>
+    <p class="follow-text">One email when a new post goes up. Nothing else, and you can unsubscribe anytime.</p>
+    {{ partial "subscribe-form.html" . }}
+  </section>
+  {{ end }}
+
+  {{ with $feed }}
+  <section class="about-section">
+    <p class="about-section-title">By RSS</p>
+    <p class="follow-text">Paste this address into a feed reader such as NetNewsWire, Feedly, Inoreader or Readwise Reader. New posts show up there as soon as they're published.</p>
+    <div class="follow-feed">
+      <code class="follow-url">{{ .Permalink }}</code>
+      <button class="share-link copy-text" type="button" data-copy="{{ .Permalink }}"><span class="copy-text-label">Copy</span></button>
+    </div>
+  </section>
+  {{ end }}
+
+  {{ $topics := slice }}
+  {{ range site.Sections }}{{ if and (gt (len .RegularPagesRecursive) 0) (.OutputFormats.Get "rss") }}{{ $topics = $topics | append . }}{{ end }}{{ end }}
+  {{ if gt (len $topics) 1 }}
+  <section class="about-section">
+    <p class="about-section-title">Just one topic</p>
+    <p class="follow-text">Each section has its own feed:</p>
+    <ul class="follow-topics">
+      {{ range $topics }}
+      <li><span class="follow-topic-name">{{ .Title }}</span> <code class="follow-url">{{ (.OutputFormats.Get "rss").Permalink }}</code></li>
+      {{ end }}
+    </ul>
+  </section>
+  {{ end }}
+</div>
+{{ end }}

@@ -1,0 +1,6 @@
+{{/* Buttondown signup — plain POST, no scripts. Context: the Buttondown username. */}}
+<form class="subscribe-form" action="https://buttondown.com/api/emails/embed-subscribe/{{ . }}" method="post" target="_blank">
+  <label class="sr-only" for="subscribe-email">Email address</label>
+  <input id="subscribe-email" class="subscribe-input" type="email" name="email" placeholder="you@example.com" autocomplete="email" required>
+  <button class="subscribe-button" type="submit">Subscribe</button>
+</form>
