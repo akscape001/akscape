@@ -1281,6 +1281,68 @@ main { flex: 1; }
 
 .share-link:hover { color: var(--color-text); border-color: var(--color-text-muted); }
 
+/* ── Subscribe ───────────────────────────────────────────── */
+
+.subscribe {
+  margin-top: var(--space-6);
+  font-family: var(--font-sans);
+}
+
+.subscribe-title {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 var(--space-3);
+}
+
+.subscribe-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.subscribe-input {
+  flex: 1 1 14rem;
+  min-width: 0;
+  height: 2.5rem;
+  padding: 0 var(--space-4);
+  font: inherit;
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 9999px;
+  transition: border-color var(--transition);
+}
+
+.subscribe-input::placeholder { color: var(--color-text-faint); }
+.subscribe-input:focus { border-color: var(--color-text-muted); outline: none; }
+
+.subscribe-button {
+  height: 2.5rem;
+  padding: 0 var(--space-5);
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-bg);
+  background: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.subscribe-button:hover { background: var(--color-accent-hover); }
+
+.subscribe-note {
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+  margin: var(--space-2) 0 0;
+}
+
+.subscribe-note a { color: var(--color-text-muted); }
+.subscribe-note a:hover { color: var(--color-text); }
+
 /* ── Mermaid diagrams ────────────────────────────────────── */
 
 .mermaid {

@@ -17,6 +17,10 @@ copyright = "Arun Kumar Venkitaraman"
   # Cloudflare Web Analytics token (dashboard → Analytics & Logs → Web Analytics). Empty = off.
   cloudflareAnalyticsToken = "33f4698a6df64b97b38a8d5a126bf8f3"
 
+  # Follow new posts. buttondown = your Buttondown username (enables the email form at the end of posts). Empty = RSS link only.
+  [params.subscribe]
+    buttondown = ""
+
   # How lists adapt as the site grows (home, section hubs, archive)
   [params.listing]
     latestCount  = 8    # posts shown under "Latest" on the home page

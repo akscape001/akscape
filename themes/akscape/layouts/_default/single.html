@@ -51,6 +51,8 @@
 
       {{ partial "share.html" . }}
 
+      {{ partial "subscribe.html" . }}
+
       {{/* Keep reading: related by tags/series → same section → latest site-wide */}}
       {{ $more := slice }}
       {{ range .Site.RegularPages.Related . }}{{ $more = $more | append . }}{{ end }}
